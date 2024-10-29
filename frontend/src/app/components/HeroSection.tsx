@@ -1,15 +1,23 @@
-import React from 'react';
+// src/app/components/HeroSection.tsx
+import CartAnimation from './CartAnimation';
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="h-screen bg-cover bg-center relative" style={{ backgroundImage: "url('/path/to/image.jpg')" }}>
-      <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
-        <h1 className="text-4xl font-extrabold mb-4">Simplifique o Controle do Seu Inventário</h1>
-        <p className="text-lg mb-6">Com a Investa, gerenciar produtos, fornecedores e transações nunca foi tão fácil.</p>
-        <button className="bg-yellow-500 text-white py-3 px-8 rounded-md text-lg hover:bg-yellow-600">
-          Gerencie seu estoque
+    <section className="flex flex-col md:flex-row items-center justify-between text-center md:text-left bg-purple-700 text-white py-20 px-6 min-h-[80vh]">
+      {/* Texto e Botão na Esquerda */}
+      <div className="md:w-1/2 mb-8 md:mb-0 flex flex-col justify-center">
+        <h1 className="text-5xl font-bold mb-4 uppercase">Bem-vindo ao Estockly</h1>
+        <p className="text-lg mb-8 max-w-xl">
+          Uma solução completa para o gerenciamento de estoque, vendas e fornecedores, tudo em um único lugar.
+        </p>
+        <button className="px-8 py-3 bg-yellow-500 text-lg font-semibold rounded-full shadow-md hover:bg-yellow-600 transition duration-300 max-w-xs mx-auto md:mx-0">
+          Comece Agora
         </button>
+      </div>
+
+      {/* Animação no Lado Direito */}
+      <div className="md:w-1/2 flex justify-center items-center">
+        <CartAnimation size={500} />
       </div>
     </section>
   );
