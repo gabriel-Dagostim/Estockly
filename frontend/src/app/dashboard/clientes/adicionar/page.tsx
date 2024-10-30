@@ -1,3 +1,4 @@
+// src/app/dashboard/clientes/adicionar/page.tsx
 "use client";
 
 import React from 'react';
@@ -26,18 +27,18 @@ const AddClientPage: React.FC = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8 bg-gray-100 min-h-screen">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-purple-700">Adicionar Cliente</h2>
+        <h2 className="text-3xl font-bold text-purple-700">Adicionar Cliente</h2>
         <button
           onClick={handleBack}
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+          className="px-4 py-2 bg-purple-200 text-purple-700 rounded-md hover:bg-purple-300 transition"
         >
           Voltar
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-lg space-y-4">
         {/* Campo Nome */}
         <div>
           <label htmlFor="nome" className="block text-gray-700 font-medium mb-2">Nome</label>
@@ -69,6 +70,7 @@ const AddClientPage: React.FC = () => {
               />
             )}
           />
+          {errors.cpf_cnpj && <span className="text-red-500 text-sm">CPF/CNPJ inválido</span>}
         </div>
 
         {/* Campo Contato com Máscara */}
@@ -86,6 +88,7 @@ const AddClientPage: React.FC = () => {
               />
             )}
           />
+          {errors.contato && <span className="text-red-500 text-sm">Contato inválido</span>}
         </div>
 
         {/* Campo Endereço */}
@@ -104,7 +107,7 @@ const AddClientPage: React.FC = () => {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+            className="px-6 py-2 bg-purple-600 text-white rounded-md font-semibold hover:bg-purple-700 transition"
           >
             Adicionar Cliente
           </button>

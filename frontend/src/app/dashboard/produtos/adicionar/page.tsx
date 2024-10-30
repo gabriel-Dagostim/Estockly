@@ -32,7 +32,7 @@ const AddProductPage: React.FC = () => {
         <h2 className="text-2xl font-bold text-purple-700">Adicionar Produto</h2>
         <button
           onClick={handleBack}
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+         className="px-4 py-2 bg-purple-200 text-purple-700 font-semibold rounded-md hover:bg-purple-300 transition"
         >
           Voltar
         </button>

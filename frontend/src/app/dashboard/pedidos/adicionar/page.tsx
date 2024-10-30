@@ -1,3 +1,4 @@
+// src/app/dashboard/pedidos/adicionar/page.tsx
 "use client";
 
 import React, { useState } from 'react';
@@ -15,8 +16,8 @@ interface OrderForm {
 const AddOrderPage: React.FC = () => {
   const { control, handleSubmit, register, watch, setValue } = useForm<OrderForm>({
     defaultValues: {
-      itens: [{ produtoId: 0, quantidade: 1, precoUnitario: 0 }]
-    }
+      itens: [{ produtoId: 0, quantidade: 1, precoUnitario: 0 }],
+    },
   });
   const { fields, append, remove } = useFieldArray({ control, name: 'itens' });
   const router = useRouter();
@@ -38,7 +39,7 @@ const AddOrderPage: React.FC = () => {
         <h2 className="text-2xl font-bold text-purple-700">Adicionar Pedido</h2>
         <button
           onClick={() => router.push('/dashboard/pedidos')}
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+          className="px-4 py-2 bg-purple-200 text-purple-700 font-semibold rounded-md hover:bg-purple-300 transition"
         >
           Voltar
         </button>
@@ -110,12 +111,20 @@ const AddOrderPage: React.FC = () => {
                 className="w-1/3 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
                 onChange={calculateTotal}
               />
-              <button type="button" onClick={() => remove(index)} className="px-2 py-1 bg-red-600 text-white rounded-md hover:bg-red-700">
+              <button
+                type="button"
+                onClick={() => remove(index)}
+                className="px-2 py-1 bg-red-600 text-white rounded-md hover:bg-red-700"
+              >
                 Remover
               </button>
             </div>
           ))}
-          <button type="button" onClick={() => append({ produtoId: 0, quantidade: 1, precoUnitario: 0 })} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+          <button
+            type="button"
+            onClick={() => append({ produtoId: 0, quantidade: 1, precoUnitario: 0 })}
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+          >
             Adicionar Produto
           </button>
         </div>
@@ -127,13 +136,13 @@ const AddOrderPage: React.FC = () => {
             type="number"
             {...register('total')}
             readOnly
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-gray-100"
           />
         </div>
 
         {/* Botão de Submissão */}
         <div className="flex justify-end">
-          <button type="submit" className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">
+          <button type="submit" className="px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition">
             Adicionar Pedido
           </button>
         </div>

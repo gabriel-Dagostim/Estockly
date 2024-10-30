@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 const DashboardHeader: React.FC = () => {
   const router = useRouter();
@@ -12,17 +13,20 @@ const DashboardHeader: React.FC = () => {
   };
 
   return (
-    <header className="flex justify-between items-center w-full px-6 py-4 bg-white shadow-md fixed top-0 left-0 z-10 ml-64 h-16">
-      <h1 className="text-2xl font-bold text-purple-700">Dashboard</h1>
+    <header className="flex justify-between items-center px-8 py-4 bg-purple-100 shadow-lg fixed top-0 left-64 w-[calc(100%-16rem)] max-w-[calc(100%-16rem)] h-20">
+      <h1 className="text-3xl font-bold text-purple-700">Dashboard</h1>
 
-      <div className="flex items-center space-x-4">
-        {/* Nome do usuário temporário */}
-        <span className="text-gray-600">Olá, Gabriel</span>
+      <div className="flex items-center space-x-6">
+        {/* Nome do usuário */}
+        <span className="text-lg text-gray-700 font-semibold">Olá, Gabriel</span>
+
+        {/* Botão de Sair */}
         <button
           onClick={handleLogout}
-          className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+          className="px-5 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition duration-300 ease-in-out flex items-center space-x-2"
         >
-          Sair
+          <FaSignOutAlt className="text-white" />
+          <span>Sair</span>
         </button>
       </div>
     </header>

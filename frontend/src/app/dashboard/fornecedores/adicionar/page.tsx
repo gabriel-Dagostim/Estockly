@@ -1,3 +1,4 @@
+// src/app/dashboard/fornecedores/adicionar/page.tsx
 "use client";
 
 import React from 'react';
@@ -13,7 +14,7 @@ interface SupplierForm {
 }
 
 const AddSupplierPage: React.FC = () => {
-  const { control, handleSubmit, register } = useForm<SupplierForm>();
+  const { control, handleSubmit, register, formState: { errors } } = useForm<SupplierForm>();
   const router = useRouter();
 
   const onSubmit = (data: SupplierForm) => {
@@ -22,27 +23,29 @@ const AddSupplierPage: React.FC = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8 bg-gray-100 min-h-screen">
+      {/* Header com título e botão de voltar */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-purple-700">Adicionar Fornecedor</h2>
+        <h2 className="text-3xl font-bold text-purple-700">Adicionar Fornecedor</h2>
         <button
           onClick={() => router.push('/dashboard/fornecedores')}
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+          className="px-4 py-2 bg-purple-200 text-purple-700 font-semibold rounded-md hover:bg-purple-300 transition"
         >
           Voltar
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-lg space-y-6">
         {/* Campo Nome */}
         <div>
           <label htmlFor="nome" className="block text-gray-700 font-medium mb-2">Nome</label>
           <input
             type="text"
             id="nome"
-            {...register('nome', { required: true })}
+            {...register('nome', { required: "O nome é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
+          {errors.nome && <span className="text-red-500 text-sm">{errors.nome.message}</span>}
         </div>
 
         {/* Campo CNPJ com Máscara */}
@@ -60,6 +63,7 @@ const AddSupplierPage: React.FC = () => {
               />
             )}
           />
+          {errors.cnpj && <span className="text-red-500 text-sm">CNPJ inválido</span>}
         </div>
 
         {/* Campo Contato com Máscara */}
@@ -77,6 +81,7 @@ const AddSupplierPage: React.FC = () => {
               />
             )}
           />
+          {errors.contato && <span className="text-red-500 text-sm">Contato inválido</span>}
         </div>
 
         {/* Campo Endereço */}
@@ -85,16 +90,17 @@ const AddSupplierPage: React.FC = () => {
           <input
             type="text"
             id="endereco"
-            {...register('endereco', { required: true })}
+            {...register('endereco', { required: "O endereço é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
+          {errors.endereco && <span className="text-red-500 text-sm">{errors.endereco.message}</span>}
         </div>
 
         {/* Botão de Submissão */}
         <div className="flex justify-end">
           <button
             type="submit"
-            className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+            className="px-6 py-2 bg-purple-600 text-white rounded-md font-semibold hover:bg-purple-700 transition"
           >
             Adicionar Fornecedor
           </button>

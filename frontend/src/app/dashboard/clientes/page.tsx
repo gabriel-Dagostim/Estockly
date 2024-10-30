@@ -1,3 +1,4 @@
+// src/app/dashboard/clientes/page.tsx
 "use client";
 
 import React from 'react';
@@ -21,12 +22,13 @@ const ClientsPage: React.FC = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8 bg-gray-100 min-h-screen">
+      {/* Header com título e botão de voltar */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-purple-700">Clientes</h2>
+        <h2 className="text-3xl font-bold text-purple-700">Clientes</h2>
         <button
           onClick={handleBack}
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+          className="px-4 py-2 bg-purple-200 text-purple-700 font-semibold rounded-md hover:bg-purple-300 transition"
         >
           Voltar
         </button>
@@ -40,9 +42,9 @@ const ClientsPage: React.FC = () => {
       />
 
       {/* Tabela de Clientes */}
-      <div className="bg-white shadow-md rounded-lg overflow-hidden">
-        <table className="min-w-full text-left text-gray-700">
-          <thead className="bg-purple-100">
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden mt-6">
+        <table className="min-w-full text-left text-gray-800">
+          <thead className="bg-purple-600 text-white">
             <tr>
               <th className="px-6 py-3">ID</th>
               <th className="px-6 py-3">Nome</th>
@@ -54,7 +56,7 @@ const ClientsPage: React.FC = () => {
           </thead>
           <tbody>
             {/* Exemplo de linha de cliente */}
-            <tr className="border-b">
+            <tr className="border-b hover:bg-purple-50 transition">
               <td className="px-6 py-4">1</td>
               <td className="px-6 py-4">Cliente Exemplo</td>
               <td className="px-6 py-4">000.000.000-00</td>
@@ -63,7 +65,7 @@ const ClientsPage: React.FC = () => {
               <td className="px-6 py-4">
                 <button
                   onClick={() => handleEditClient(1)}
-                  className="px-2 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 mr-2"
+                  className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition mr-2"
                 >
                   Editar
                 </button>
@@ -75,10 +77,10 @@ const ClientsPage: React.FC = () => {
       </div>
 
       {/* Botão de Adicionar Novo Cliente */}
-      <div className="flex justify-end mt-4">
+      <div className="flex justify-end mt-6">
         <button
           onClick={handleAddClient}
-          className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+          className="px-6 py-2 bg-purple-600 text-white rounded-md font-semibold hover:bg-purple-700 transition"
         >
           Adicionar Novo Cliente
         </button>
