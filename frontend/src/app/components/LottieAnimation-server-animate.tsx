@@ -1,8 +1,11 @@
 // src/app/components/LottieAnimation-server-animate.tsx
 "use client";
 
-import Lottie from "lottie-react";
+import dynamic from 'next/dynamic';
 import animationData from "../../../public/server-animate.json";
+
+// Carregar o componente Lottie dinamicamente sem SSR
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const LottieAnimation = ({ size = 300 }) => {
   return (

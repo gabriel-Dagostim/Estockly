@@ -1,8 +1,11 @@
 // src/app/components/DashAnimation.tsx
 "use client";
 
-import Lottie from "lottie-react";
+import dynamic from 'next/dynamic';
 import animationData from "../../../public/dash-animated.json";
+
+// Carregar Lottie dinamicamente sem SSR
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const DashAnimation: React.FC = () => {
   return (

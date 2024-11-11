@@ -1,10 +1,12 @@
-// src/app/components/CartAnimation.tsx
 "use client";
 
-import Lottie from "lottie-react";
-import cartAnimationData from "../../../public/cart-animate.json";
+import dynamic from 'next/dynamic';
+import cartAnimationData from '../../../public/cart-animate.json';
 
-const CartAnimation = ({ size = 500 }) => {  // Tamanho ajustado
+// Carrega o componente `Lottie` sem SSR
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
+
+const CartAnimation = ({ size = 500 }) => {
   return (
     <Lottie
       animationData={cartAnimationData}
