@@ -17,37 +17,21 @@ model User {
 }
 
 model Produto {
-  id          Int      @id @default(autoincrement())
-  nome        String
-  descricao   String
-  preco       Float
-  quantidade  Int
-  imagem      String?
-  fornecedor  Fornecedor @relation(fields: [fornecedorId], references: [id])
+  id           Int         @id @default(autoincrement())
+  nome         String
+  descricao    String
+  preco        Float
+  quantidade   Int
+  imagem       String?
   fornecedorId Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  fornecedor   Fornecedor  @relation(fields: [fornecedorId], references: [id])
 }
 
 model Fornecedor {
-  id       Int       @id @default(autoincrement())
-  nome     String
-  produtos Produto[] // Relação com Produtos
-}
-
-model Supplier {
-  id        Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   nome      String
-  cnpj      String @unique
+  cnpj      String   @unique
   contato   String
   endereco  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  produtos  Produto[]
 }
-
-
-
-
-
-
-

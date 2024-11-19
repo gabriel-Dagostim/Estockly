@@ -1,29 +1,56 @@
-// src/app/dashboard/fornecedores/page.tsx
 "use client";
 
-import React from 'react';
-import DashboardSubHeader from '../../components/DashboardSubHeader';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+interface Fornecedor {
+  id: number;
+  nome: string;
+  cnpj: string;
+  contato: string;
+  endereco: string;
+}
 
 const SuppliersPage: React.FC = () => {
-  const totalSuppliers = 10; // Número temporário de fornecedores para exibição
+  const [suppliers, setSuppliers] = useState<Fornecedor[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleAddSupplier = () => {
-    router.push('/dashboard/fornecedores/adicionar');
-  };
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/suppliers');
+        if (!response.ok) {
+          throw new Error('Erro ao carregar fornecedores.');
+        }
+        const data = await response.json();
+        setSuppliers(data);
+      } catch (error) {
+        console.error('Erro ao buscar fornecedores:', error);
+        setError('Erro ao carregar fornecedores.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleEditSupplier = (id: number) => {
+    fetchSuppliers();
+  }, []);
+
+  const handleEdit = (id: number) => {
     router.push(`/dashboard/fornecedores/editar/${id}`);
   };
 
   const handleBack = () => {
-    router.push('/dashboard'); // Redireciona para a página principal da dashboard
+    router.push('/dashboard');
   };
+
+  if (loading) return <p>Carregando fornecedores...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
-      {/* Header com título e botão de voltar */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-purple-700">Fornecedores</h2>
         <button
@@ -34,17 +61,9 @@ const SuppliersPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Sub-header dos fornecedores */}
-      <DashboardSubHeader 
-        title="Fornecedores" 
-        totalCount={totalSuppliers} 
-        placeholder="Filtrar fornecedores..." 
-      />
-
-      {/* Tabela de Fornecedores */}
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden mt-6">
-        <table className="min-w-full text-left text-gray-800">
-          <thead className="bg-purple-600 text-white">
+      <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        <table className="min-w-full text-left text-gray-700">
+          <thead className="bg-purple-100">
             <tr>
               <th className="px-6 py-3">ID</th>
               <th className="px-6 py-3">Nome</th>
@@ -55,35 +74,34 @@ const SuppliersPage: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Exemplo de linha de fornecedor */}
-            <tr className="border-b hover:bg-purple-50 transition">
-              <td className="px-6 py-4">1</td>
-              <td className="px-6 py-4">Fornecedor Exemplo</td>
-              <td className="px-6 py-4">00.000.000/0001-00</td>
-              <td className="px-6 py-4">contato@exemplo.com</td>
-              <td className="px-6 py-4">Rua Exemplo, 123</td>
-              <td className="px-6 py-4">
-                <button
-                  onClick={() => handleEditSupplier(1)}
-                  className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition mr-2"
-                >
-                  Editar
-                </button>
-              </td>
-            </tr>
-            {/* Adicione mais linhas conforme necessário */}
+            {suppliers.map((supplier) => (
+              <tr key={supplier.id} className="border-b">
+                <td className="px-6 py-4">{supplier.id}</td>
+                <td className="px-6 py-4">{supplier.nome}</td>
+                <td className="px-6 py-4">{supplier.cnpj}</td>
+                <td className="px-6 py-4">{supplier.contato}</td>
+                <td className="px-6 py-4">{supplier.endereco}</td>
+                <td className="px-6 py-4">
+                  <button
+                    onClick={() => handleEdit(supplier.id)}
+                    className="px-2 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 mr-2"
+                  >
+                    Editar
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
 
-      {/* Botão de Adicionar Novo Fornecedor */}
-      <div className="flex justify-end mt-6">
-        <button
-          onClick={handleAddSupplier}
-          className="px-6 py-2 bg-purple-600 text-white rounded-md font-semibold hover:bg-purple-700 transition"
+      <div className="flex justify-end mt-4">
+        <Link
+          href="/dashboard/fornecedores/adicionar"
+          className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
         >
           Adicionar Novo Fornecedor
-        </button>
+        </Link>
       </div>
     </div>
   );

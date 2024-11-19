@@ -1,22 +1,45 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaSignOutAlt } from 'react-icons/fa';
 
 const DashboardHeader: React.FC = () => {
+  const [userName, setUserName] = useState<string>('');
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/users', {
+          method: 'GET',
+          credentials: 'include', // Inclui cookies na requisição
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro ao buscar informações do usuário');
+        }
+
+        const user = await response.json();
+        // Extrai apenas o primeiro nome
+        const firstName = user.name.split(' ')[0];
+        setUserName(firstName);
+      } catch (error) {
+        console.error('Erro ao buscar informações do usuário:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleLogout = async () => {
     try {
-      // Faz uma requisição para apagar o cookie no backend
       const response = await fetch('http://localhost:3001/api/logout', {
         method: 'POST',
-        credentials: 'include', // Garante que os cookies sejam enviados
+        credentials: 'include',
       });
 
       if (response.ok) {
-        // Redireciona para a página de login
         router.push('/painel');
       } else {
         console.error('Erro ao sair:', await response.text());
@@ -32,7 +55,7 @@ const DashboardHeader: React.FC = () => {
 
       <div className="flex items-center space-x-6">
         {/* Nome do usuário */}
-        <span className="text-lg text-gray-700 font-semibold">Olá, Gabriel</span>
+        <span className="text-lg text-gray-700 font-semibold">Olá, {userName}</span>
 
         {/* Botão de Sair */}
         <button

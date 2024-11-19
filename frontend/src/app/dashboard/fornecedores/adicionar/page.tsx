@@ -53,7 +53,6 @@ const AddSupplierPage: React.FC = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-lg space-y-6">
-        {/* Campo Nome */}
         <div>
           <label htmlFor="nome" className="block text-gray-700 font-medium mb-2">Nome</label>
           <input
@@ -65,7 +64,6 @@ const AddSupplierPage: React.FC = () => {
           {errors.nome && <span className="text-red-500 text-sm">{errors.nome.message}</span>}
         </div>
 
-        {/* Campo CNPJ */}
         <div>
           <label htmlFor="cnpj" className="block text-gray-700 font-medium mb-2">CNPJ</label>
           <Controller
@@ -83,7 +81,6 @@ const AddSupplierPage: React.FC = () => {
           {errors.cnpj && <span className="text-red-500 text-sm">CNPJ inválido</span>}
         </div>
 
-        {/* Campo Contato */}
         <div>
           <label htmlFor="contato" className="block text-gray-700 font-medium mb-2">Contato</label>
           <Controller
@@ -101,7 +98,6 @@ const AddSupplierPage: React.FC = () => {
           {errors.contato && <span className="text-red-500 text-sm">Contato inválido</span>}
         </div>
 
-        {/* Campo Endereço */}
         <div>
           <label htmlFor="endereco" className="block text-gray-700 font-medium mb-2">Endereço</label>
           <input
