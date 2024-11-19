@@ -8,7 +8,7 @@ const usuarioRoutes_1 = __importDefault(require("./usuarioRoutes"));
 const fornecedorRoutes_1 = __importDefault(require("./fornecedorRoutes"));
 const produtoRoutes_1 = __importDefault(require("./produtoRoutes"));
 const app = (0, express_1.default)();
-const PORT = 3000;
+const PORT = 3001;
 app.use(express_1.default.json());
 app.use('/api/usuarios', usuarioRoutes_1.default);
 app.use('/api/fornecedores', fornecedorRoutes_1.default); // Rotas para fornecedores
