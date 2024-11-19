@@ -1,4 +1,3 @@
-// src/app/dashboard/fornecedores/adicionar/page.tsx
 "use client";
 
 import React from 'react';
@@ -17,14 +16,32 @@ const AddSupplierPage: React.FC = () => {
   const { control, handleSubmit, register, formState: { errors } } = useForm<SupplierForm>();
   const router = useRouter();
 
-  const onSubmit = (data: SupplierForm) => {
-    console.log(data);
-    router.push('/dashboard/fornecedores');
+  const onSubmit = async (data: SupplierForm) => {
+    try {
+      const response = await fetch('http://localhost:3001/api/suppliers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        alert(`Erro: ${errorResponse.error}`);
+        return;
+      }
+
+      alert('Fornecedor adicionado com sucesso!');
+      router.push('/dashboard/fornecedores');
+    } catch (error) {
+      console.error('Erro ao adicionar fornecedor:', error);
+      alert('Erro ao adicionar fornecedor. Tente novamente.');
+    }
   };
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
-      {/* Header com título e botão de voltar */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-purple-700">Adicionar Fornecedor</h2>
         <button
@@ -48,7 +65,7 @@ const AddSupplierPage: React.FC = () => {
           {errors.nome && <span className="text-red-500 text-sm">{errors.nome.message}</span>}
         </div>
 
-        {/* Campo CNPJ com Máscara */}
+        {/* Campo CNPJ */}
         <div>
           <label htmlFor="cnpj" className="block text-gray-700 font-medium mb-2">CNPJ</label>
           <Controller
@@ -66,7 +83,7 @@ const AddSupplierPage: React.FC = () => {
           {errors.cnpj && <span className="text-red-500 text-sm">CNPJ inválido</span>}
         </div>
 
-        {/* Campo Contato com Máscara */}
+        {/* Campo Contato */}
         <div>
           <label htmlFor="contato" className="block text-gray-700 font-medium mb-2">Contato</label>
           <Controller
@@ -96,7 +113,6 @@ const AddSupplierPage: React.FC = () => {
           {errors.endereco && <span className="text-red-500 text-sm">{errors.endereco.message}</span>}
         </div>
 
-        {/* Botão de Submissão */}
         <div className="flex justify-end">
           <button
             type="submit"

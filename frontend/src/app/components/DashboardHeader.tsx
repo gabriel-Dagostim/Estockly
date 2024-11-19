@@ -7,9 +7,23 @@ import { FaSignOutAlt } from 'react-icons/fa';
 const DashboardHeader: React.FC = () => {
   const router = useRouter();
 
-  const handleLogout = () => {
-    // Redireciona para a página de login/painel ao clicar em "Sair"
-    router.push('/painel');
+  const handleLogout = async () => {
+    try {
+      // Faz uma requisição para apagar o cookie no backend
+      const response = await fetch('http://localhost:3001/api/logout', {
+        method: 'POST',
+        credentials: 'include', // Garante que os cookies sejam enviados
+      });
+
+      if (response.ok) {
+        // Redireciona para a página de login
+        router.push('/painel');
+      } else {
+        console.error('Erro ao sair:', await response.text());
+      }
+    } catch (error) {
+      console.error('Erro ao sair:', error);
+    }
   };
 
   return (

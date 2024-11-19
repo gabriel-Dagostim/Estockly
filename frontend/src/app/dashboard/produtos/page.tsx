@@ -1,12 +1,34 @@
 "use client";
 
-import React from 'react';
+interface Fornecedor {
+  id: number;
+  nome: string;
+}
+
+interface Produto {
+  id: number;
+  nome: string;
+  descricao: string;
+  preco: number;
+  quantidade: number;
+  imagem?: string; // Opcional
+  fornecedor: Fornecedor;
+}
+
+import React, { useEffect, useState } from 'react';
 import DashboardSubHeader from '../../components/DashboardSubHeader';
 import { useRouter } from 'next/navigation';
 
 const ProductsPage: React.FC = () => {
-  const totalProducts = 20; // Número temporário de produtos para exibição
+  const [products, setProducts] = useState<Produto[]>([]); // Use Produto[]
   const router = useRouter();
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/products')
+      .then((response) => response.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error('Erro ao buscar produtos:', error));
+  }, []);
 
   const handleAddProduct = () => {
     router.push('/dashboard/produtos/adicionar');
@@ -32,14 +54,8 @@ const ProductsPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Sub-header dos produtos */}
-      <DashboardSubHeader 
-        title="Produtos" 
-        totalCount={totalProducts} 
-        placeholder="Filtrar produtos..." 
-      />
+      <DashboardSubHeader title="Produtos" totalCount={products.length} placeholder="Filtrar produtos..." />
 
-      {/* Tabela de Produtos */}
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <table className="min-w-full text-left text-gray-700">
           <thead className="bg-purple-100">
@@ -54,34 +70,30 @@ const ProductsPage: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Exemplo de linha de produto */}
-            <tr className="border-b">
-              <td className="px-6 py-4">1</td>
-              <td className="px-6 py-4">Produto Exemplo</td>
-              <td className="px-6 py-4">Descrição breve do produto</td>
-              <td className="px-6 py-4">R$ 100,00</td>
-              <td className="px-6 py-4">50</td>
-              <td className="px-6 py-4">Fornecedor Exemplo</td>
-              <td className="px-6 py-4">
-                <button
-                  onClick={() => handleEditProduct(1)}
-                  className="px-2 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 mr-2"
-                >
-                  Editar
-                </button>
-              </td>
-            </tr>
-            {/* Adicione mais linhas conforme necessário */}
+            {products.map((product) => (
+              <tr key={product.id} className="border-b">
+                <td className="px-6 py-4">{product.id}</td>
+                <td className="px-6 py-4">{product.nome}</td>
+                <td className="px-6 py-4">{product.descricao}</td>
+                <td className="px-6 py-4">R$ {product.preco.toFixed(2)}</td>
+                <td className="px-6 py-4">{product.quantidade}</td>
+                <td className="px-6 py-4">{product.fornecedor.nome}</td>
+                <td className="px-6 py-4">
+                  <button
+                    onClick={() => handleEditProduct(product.id)}
+                    className="px-2 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 mr-2"
+                  >
+                    Editar
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
 
-      {/* Botão de Adicionar Novo Produto */}
       <div className="flex justify-end mt-4">
-        <button
-          onClick={handleAddProduct}
-          className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
-        >
+        <button onClick={handleAddProduct} className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">
           Adicionar Novo Produto
         </button>
       </div>

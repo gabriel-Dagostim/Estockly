@@ -1,0 +1,24 @@
+{
+    "type": "module",
+    "dependencies": {
+        "@prisma/client": "^5.22.0",
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "jsonwebtoken": "^9.0.2",
+        "next": "^15.0.3",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "sqlite": "^5.1.1",
+        "sqlite3": "^5.1.7"
+    },
+    "devDependencies": {
+        "@types/node": "22.9.0",
+        "@types/react": "18.3.12",
+        "prisma": "^5.22.0"
+    },
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start"
+    }
+}

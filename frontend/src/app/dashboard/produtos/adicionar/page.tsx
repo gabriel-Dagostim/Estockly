@@ -9,7 +9,7 @@ interface ProductForm {
   descricao: string;
   preco: number;
   quantidade: number;
-  imagem: string;
+  imagem?: string;
   fornecedorId: number;
 }
 
@@ -17,9 +17,28 @@ const AddProductPage: React.FC = () => {
   const { control, handleSubmit, register, formState: { errors } } = useForm<ProductForm>();
   const router = useRouter();
 
-  const onSubmit = (data: ProductForm) => {
-    console.log(data);
-    router.push('/dashboard/produtos');
+  const onSubmit = async (data: ProductForm) => {
+    try {
+      const response = await fetch('http://localhost:3001/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        alert(`Erro: ${errorResponse.error}`);
+        return;
+      }
+
+      alert('Produto adicionado com sucesso!');
+      router.push('/dashboard/produtos');
+    } catch (error) {
+      console.error('Erro ao adicionar produto:', error);
+      alert('Erro ao adicionar produto. Tente novamente.');
+    }
   };
 
   const handleBack = () => {
@@ -32,7 +51,7 @@ const AddProductPage: React.FC = () => {
         <h2 className="text-2xl font-bold text-purple-700">Adicionar Produto</h2>
         <button
           onClick={handleBack}
-         className="px-4 py-2 bg-purple-200 text-purple-700 font-semibold rounded-md hover:bg-purple-300 transition"
+          className="px-4 py-2 bg-purple-200 text-purple-700 font-semibold rounded-md hover:bg-purple-300 transition"
         >
           Voltar
         </button>
