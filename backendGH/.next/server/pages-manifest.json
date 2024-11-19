@@ -2,8 +2,13 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+<<<<<<< HEAD
   "/api/suppliers": "pages/api/suppliers.js",
   "/api/updateUser": "pages/api/updateUser.js",
   "/api/products": "pages/api/products.js",
   "/api/users": "pages/api/users.js"
+=======
+  "/api/users": "pages/api/users.js",
+  "/api/updateUser": "pages/api/updateUser.js"
+>>>>>>> parent of 1fb1da5 (aaa)
 }
