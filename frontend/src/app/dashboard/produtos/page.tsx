@@ -1,5 +1,10 @@
 "use client";
 
+import React, { useEffect, useState } from 'react';
+import DashboardSubHeader from '../../components/DashboardSubHeader';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 interface Fornecedor {
   id: number;
   nome: string;
@@ -11,43 +16,49 @@ interface Produto {
   descricao: string;
   preco: number;
   quantidade: number;
-  imagem?: string; // Opcional
+  imagem?: string;
   fornecedor: Fornecedor;
 }
 
-import React, { useEffect, useState } from 'react';
-import DashboardSubHeader from '../../components/DashboardSubHeader';
-import { useRouter } from 'next/navigation';
-
 const ProductsPage: React.FC = () => {
-  const [products, setProducts] = useState<Produto[]>([]); // Use Produto[]
+  const [products, setProducts] = useState<Produto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const router = useRouter();
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/products')
-      .then((response) => response.json())
-      .then((data) => setProducts(data))
-      .catch((error) => console.error('Erro ao buscar produtos:', error));
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/products');
+        if (!response.ok) {
+          throw new Error('Erro ao buscar produtos.');
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Erro ao buscar produtos:', error);
+        setError('Erro ao carregar produtos.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   const handleAddProduct = () => {
     router.push('/dashboard/produtos/adicionar');
   };
 
-  const handleEditProduct = (id: number) => {
-    router.push(`/dashboard/produtos/editar/${id}`);
-  };
-
-  const handleBack = () => {
-    router.push('/dashboard');
-  };
+  if (loading) return <p>Carregando produtos...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-purple-700">Produtos</h2>
         <button
-          onClick={handleBack}
+          onClick={() => router.push('/dashboard')}
           className="px-4 py-2 bg-purple-200 text-purple-700 font-semibold rounded-md hover:bg-purple-300 transition"
         >
           Voltar
@@ -78,13 +89,10 @@ const ProductsPage: React.FC = () => {
                 <td className="px-6 py-4">R$ {product.preco.toFixed(2)}</td>
                 <td className="px-6 py-4">{product.quantidade}</td>
                 <td className="px-6 py-4">{product.fornecedor.nome}</td>
-                <td className="px-6 py-4">
-                  <button
-                    onClick={() => handleEditProduct(product.id)}
-                    className="px-2 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 mr-2"
-                  >
-                    Editar
-                  </button>
+                <td>
+                <Link href={`/dashboard/produtos/editar/${product.id}`}>
+                  <button className="btn btn-primary">Editar</button>
+                </Link>
                 </td>
               </tr>
             ))}

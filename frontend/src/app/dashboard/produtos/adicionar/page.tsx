@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 interface ProductForm {
@@ -13,9 +13,39 @@ interface ProductForm {
   fornecedorId: number;
 }
 
+interface Fornecedor {
+  id: number;
+  nome: string;
+}
+
 const AddProductPage: React.FC = () => {
-  const { control, handleSubmit, register, formState: { errors } } = useForm<ProductForm>();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<ProductForm>();
+  const [fornecedores, setFornecedores] = useState<Fornecedor[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchFornecedores = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/suppliers', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro ao buscar fornecedores.');
+        }
+
+        const data: Fornecedor[] = await response.json();
+        setFornecedores(data);
+      } catch (error) {
+        console.error('Erro ao buscar fornecedores:', error);
+      }
+    };
+
+    fetchFornecedores();
+  }, []);
 
   const onSubmit = async (data: ProductForm) => {
     try {
@@ -26,13 +56,13 @@ const AddProductPage: React.FC = () => {
         },
         body: JSON.stringify(data),
       });
-
+  
       if (!response.ok) {
         const errorResponse = await response.json();
         alert(`Erro: ${errorResponse.error}`);
         return;
       }
-
+  
       alert('Produto adicionado com sucesso!');
       router.push('/dashboard/produtos');
     } catch (error) {
@@ -40,6 +70,7 @@ const AddProductPage: React.FC = () => {
       alert('Erro ao adicionar produto. Tente novamente.');
     }
   };
+  
 
   const handleBack = () => {
     router.push('/dashboard/produtos');
@@ -65,7 +96,7 @@ const AddProductPage: React.FC = () => {
             type="text"
             id="nome"
             {...register('nome', { required: "O nome é obrigatório." })}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           {errors.nome && <span className="text-red-500 text-sm">{errors.nome.message}</span>}
         </div>
@@ -76,7 +107,7 @@ const AddProductPage: React.FC = () => {
           <textarea
             id="descricao"
             {...register('descricao', { required: "A descrição é obrigatória." })}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           {errors.descricao && <span className="text-red-500 text-sm">{errors.descricao.message}</span>}
         </div>
@@ -91,7 +122,7 @@ const AddProductPage: React.FC = () => {
               required: "O preço é obrigatório.",
               min: { value: 1, message: "O preço deve ser maior que zero." }
             })}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           {errors.preco && <span className="text-red-500 text-sm">{errors.preco.message}</span>}
         </div>
@@ -106,12 +137,12 @@ const AddProductPage: React.FC = () => {
               required: "A quantidade é obrigatória.",
               min: { value: 1, message: "A quantidade deve ser maior que zero." }
             })}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           {errors.quantidade && <span className="text-red-500 text-sm">{errors.quantidade.message}</span>}
         </div>
 
-        {/* Campo Imagem (URL) */}
+        {/* Campo Imagem */}
         <div>
           <label htmlFor="imagem" className="block text-gray-700 font-medium mb-2">URL da Imagem</label>
           <input
@@ -119,7 +150,7 @@ const AddProductPage: React.FC = () => {
             id="imagem"
             {...register('imagem')}
             placeholder="https://exemplo.com/imagem.jpg"
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
         </div>
 
@@ -129,11 +160,12 @@ const AddProductPage: React.FC = () => {
           <select
             id="fornecedorId"
             {...register('fornecedorId', { required: "Selecione um fornecedor." })}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           >
             <option value="">Selecione o fornecedor</option>
-            <option value="1">Fornecedor 1</option>
-            <option value="2">Fornecedor 2</option>
+            {fornecedores.map((fornecedor: Fornecedor) => (
+              <option key={fornecedor.id} value={fornecedor.id}>{fornecedor.nome}</option>
+            ))}
           </select>
           {errors.fornecedorId && <span className="text-red-500 text-sm">{errors.fornecedorId.message}</span>}
         </div>
