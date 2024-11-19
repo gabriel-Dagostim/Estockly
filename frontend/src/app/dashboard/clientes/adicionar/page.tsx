@@ -17,9 +17,30 @@ const AddClientPage: React.FC = () => {
   const { control, handleSubmit, register, formState: { errors } } = useForm<ClientForm>();
   const router = useRouter();
 
-  const onSubmit = (data: ClientForm) => {
-    console.log(data);
-    router.push('/dashboard/clientes');
+  const onSubmit = async (data: ClientForm) => {
+    try {
+      const response = await fetch("http://localhost:3001/api/clientes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data), // Envia os dados do formulário como JSON
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Cliente adicionado com sucesso:", result);
+  
+        // Redireciona para a lista de clientes após adicionar
+        router.push("/dashboard/clientes");
+      } else {
+        console.error("Erro ao adicionar cliente:", await response.json());
+        alert("Erro ao adicionar cliente. Verifique os campos.");
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      alert("Erro ao conectar ao servidor.");
+    }
   };
 
   const handleBack = () => {
