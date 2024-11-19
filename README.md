@@ -1,67 +1,48 @@
-# ============================================
-# 🔧 CONFIGURAÇÕES DO PROJETO DE INVENTÁRIO
-# ============================================
+# -----------------------------------------------------------
+# 📦 Projeto: Sistema de Gestão de Inventário e Pedidos
+# -----------------------------------------------------------
+# Este é um sistema para gerenciar inventário e pedidos, construído com:
+# - Frontend e backend em Next.js
+# - Prisma ORM e banco de dados SQLite
+# - Bibliotecas adicionais como react-hook-form, TailwindCSS e outras
+# -----------------------------------------------------------
 
-# Descrição do Projeto:
-# Este projeto é um sistema de gestão de inventário e pedidos,
-# desenvolvido utilizando Next.js para o frontend e backend,
-# Prisma ORM para gerenciar o banco de dados SQLite,
-# e diversas bibliotecas como react-hook-form, TailwindCSS, e mais.
+# 🌐 Configuração do Ambiente
 
-# ============================================
-# 🚀 AMBIENTE DE DESENVOLVIMENTO
-# ============================================
+NEXT_PUBLIC_BASE_URL=http://localhost:3000     # URL do Frontend
+API_BASE_URL=http://localhost:3001             # URL do Backend
 
-# URL base do frontend (Next.js em desenvolvimento)
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+# 🗄️ Banco de Dados
+DATABASE_URL="file:./database.sqlite"          # Caminho do SQLite
 
-# URL base do backend
-API_BASE_URL=http://localhost:3001
+# 🔐 Autenticação com JWT
+JWT_SECRET="sua-chave-secreta-aqui"            # Chave secreta para JWT
 
-# Banco de dados SQLite
-DATABASE_URL="file:./database.sqlite"
+# 🌍 CORS (Cross-Origin Resource Sharing)
+CORS_ORIGIN=http://localhost:3000              # Origem permitida
+CORS_METHODS=GET,POST,PUT,DELETE               # Métodos permitidos
 
-# Chave secreta para autenticação com JWT
-JWT_SECRET="sua-chave-secreta-aqui"
+# -----------------------------------------------------------
+# 🔧 Comandos do Prisma
+# -----------------------------------------------------------
+# Aqui estão os principais comandos para configurar e gerenciar o Prisma:
 
-# ============================================
-# 🌐 CONFIGURAÇÕES DE CORS
-# ============================================
-CORS_ORIGIN=http://localhost:3000
-CORS_METHODS=GET,POST,PUT,DELETE
+| Comando                         | Descrição                                                     |
+|---------------------------------|---------------------------------------------------------------|
+| `npx prisma init`               | Inicializa o Prisma no projeto, criando o `schema.prisma`     |
+| `npx prisma migrate dev --name <nome>` | Aplica migrações ao banco de dados                      |
+| `npx prisma studio`             | Abre o Prisma Studio, interface para visualizar e manipular dados |
+| `npx prisma generate`           | Gera o cliente Prisma após alterações no schema               |
+| `npx prisma migrate reset`      | Reseta o banco de dados e reaplica migrações                 |
+| `npx prisma validate`           | Valida a integridade do schema e do banco de dados            |
+| `npx prisma db push`            | Sincroniza o schema com o banco, sem criar migrações (apenas para dev) |
 
-# ============================================
-# 🗄️ CONFIGURAÇÃO DO PRISMA
-# ============================================
-# Comandos do Prisma para configurar o ambiente:
+# -----------------------------------------------------------
+# ⚠️ Notas Importantes
+# -----------------------------------------------------------
+# 1️⃣ SQLite funciona sem instalação extra.
+# 2️⃣ Mantenha este arquivo `.env` privado para proteger dados sensíveis.
+# 3️⃣ Rode `npm install` para instalar todas as dependências.
+# 4️⃣ Sempre execute `npx prisma generate` após modificar o schema do Prisma.
 
-# 1. Inicializar o Prisma (caso ainda não tenha o esquema):
-#    npx prisma init
-
-# 2. Aplicar migrações no banco de dados:
-#    npx prisma migrate dev --name init
-#    (Substitua 'init' pelo nome da migração, se necessário)
-
-# 3. Rodar o Prisma Studio (Interface para visualização e manipulação dos dados):
-#    npx prisma studio
-
-# 4. Gerar o cliente Prisma após alteração no schema:
-#    npx prisma generate
-
-# 5. Resetar o banco de dados (cuidado, isso apaga tudo!):
-#    npx prisma migrate reset
-
-# 6. Verificar a integridade do schema e do banco:
-#    npx prisma validate
-
-# 7. Sincronizar sem migrações (apenas em casos específicos):
-#    npx prisma db push
-
-# ============================================
-# ✅ NOTAS IMPORTANTES
-# ============================================
-# 1. SQLite não requer instalação adicional no sistema.
-# 2. Este arquivo `.env` deve ser mantido em sigilo para evitar
-#    exposição de chaves de autenticação e configurações sensíveis.
-# 3. Lembre-se de rodar `npm install` para instalar todas as dependências.
-# 4. Sempre use `npx prisma generate` após alterar o schema do Prisma.
+# -----------------------------------------------------------
