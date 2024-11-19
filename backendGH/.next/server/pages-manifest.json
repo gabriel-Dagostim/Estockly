@@ -2,11 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< Updated upstream
   "/api/users": "pages/api/users.js",
-  "/api/updateUser": "pages/api/updateUser.js"
-=======
-  "/api/logout": "pages/api/logout.js",
-  "/api/login": "pages/api/login.js"
->>>>>>> Stashed changes
+  "/api/suppliers": "pages/api/suppliers.js"
 }
