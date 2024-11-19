@@ -22,7 +22,10 @@
     "react-input-mask": "^2.0.4",
     "react-input-mask-next": "^3.0.0-alpha.12",
     "react-text-mask": "^5.5.0",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "cookie": "^0.5.0",
+    "prisma": "^5.0.0",
+    "@prisma/client": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
