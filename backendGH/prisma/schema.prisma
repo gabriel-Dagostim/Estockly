@@ -25,6 +25,7 @@ model Produto {
   imagem       String?
   fornecedorId Int
   fornecedor   Fornecedor  @relation(fields: [fornecedorId], references: [id])
+  pedidos      ItemPedido[]
 }
 
 model Fornecedor {
@@ -42,6 +43,26 @@ model Cliente {
   cpf_cnpj String   @unique
   contato  String
   endereco String
+  pedidos  Pedido[]
 }
 
+model Pedido {
+  id        Int        @id @default(autoincrement())
+  clienteId Int
+  data      DateTime
+  status    String
+  total     Float
+  cliente   Cliente    @relation(fields: [clienteId], references: [id])
+  itens     ItemPedido[]
+}
 
+model ItemPedido {
+  id           Int     @id @default(autoincrement())
+  pedidoId     Int
+  produtoId    Int
+  quantidade   Int
+  precoUnitario Float
+  subtotal     Float
+  pedido       Pedido  @relation(fields: [pedidoId], references: [id])
+  produto      Produto @relation(fields: [produtoId], references: [id])
+}
