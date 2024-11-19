@@ -1,4 +1,3 @@
-// src/app/dashboard/clientes/adicionar/page.tsx
 "use client";
 
 import React from 'react';
@@ -26,15 +25,13 @@ const AddClientPage: React.FC = () => {
         },
         body: JSON.stringify(data), // Envia os dados do formulário como JSON
       });
-  
+
       if (response.ok) {
-        const result = await response.json();
-        console.log("Cliente adicionado com sucesso:", result);
-  
-        // Redireciona para a lista de clientes após adicionar
+        alert('Cliente adicionado com sucesso!');
         router.push("/dashboard/clientes");
       } else {
-        console.error("Erro ao adicionar cliente:", await response.json());
+        const errorResponse = await response.json();
+        console.error("Erro ao adicionar cliente:", errorResponse);
         alert("Erro ao adicionar cliente. Verifique os campos.");
       }
     } catch (error) {
@@ -94,7 +91,7 @@ const AddClientPage: React.FC = () => {
           {errors.cpf_cnpj && <span className="text-red-500 text-sm">CPF/CNPJ inválido</span>}
         </div>
 
-        {/* Campo Contato com Máscara */}
+        {/* Campo Contato */}
         <div>
           <label htmlFor="contato" className="block text-gray-700 font-medium mb-2">Contato</label>
           <Controller

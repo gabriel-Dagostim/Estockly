@@ -1,13 +1,37 @@
-// src/app/dashboard/clientes/page.tsx
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardSubHeader from '../../components/DashboardSubHeader';
 import { useRouter } from 'next/navigation';
 
+interface Cliente {
+  id: number;
+  nome: string;
+  cpf_cnpj: string;
+  contato: string;
+  endereco: string;
+}
+
 const ClientsPage: React.FC = () => {
-  const totalClients = 20; // Número temporário de clientes para exibição
+  const [clients, setClients] = useState<Cliente[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/clientes');
+        if (!response.ok) {
+          throw new Error('Erro ao buscar clientes.');
+        }
+        const data = await response.json();
+        setClients(data);
+      } catch (error) {
+        console.error('Erro ao buscar clientes:', error);
+      }
+    };
+
+    fetchClients();
+  }, []);
 
   const handleAddClient = () => {
     router.push('/dashboard/clientes/adicionar');
@@ -23,7 +47,6 @@ const ClientsPage: React.FC = () => {
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
-      {/* Header com título e botão de voltar */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-purple-700">Clientes</h2>
         <button
@@ -34,14 +57,12 @@ const ClientsPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Sub-header dos clientes */}
-      <DashboardSubHeader 
-        title="Clientes" 
-        totalCount={totalClients} 
-        placeholder="Filtrar clientes..." 
+      <DashboardSubHeader
+        title="Clientes"
+        totalCount={clients.length}
+        placeholder="Filtrar clientes..."
       />
 
-      {/* Tabela de Clientes */}
       <div className="bg-white shadow-lg rounded-lg overflow-hidden mt-6">
         <table className="min-w-full text-left text-gray-800">
           <thead className="bg-purple-600 text-white">
@@ -55,28 +76,27 @@ const ClientsPage: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Exemplo de linha de cliente */}
-            <tr className="border-b hover:bg-purple-50 transition">
-              <td className="px-6 py-4">1</td>
-              <td className="px-6 py-4">Cliente Exemplo</td>
-              <td className="px-6 py-4">000.000.000-00</td>
-              <td className="px-6 py-4">+55 (99) 99999-9999</td>
-              <td className="px-6 py-4">Rua Exemplo, 123</td>
-              <td className="px-6 py-4">
-                <button
-                  onClick={() => handleEditClient(1)}
-                  className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition mr-2"
-                >
-                  Editar
-                </button>
-              </td>
-            </tr>
-            {/* Adicione mais linhas conforme necessário */}
+            {clients.map((client) => (
+              <tr key={client.id} className="border-b hover:bg-purple-50 transition">
+                <td className="px-6 py-4">{client.id}</td>
+                <td className="px-6 py-4">{client.nome}</td>
+                <td className="px-6 py-4">{client.cpf_cnpj}</td>
+                <td className="px-6 py-4">{client.contato}</td>
+                <td className="px-6 py-4">{client.endereco}</td>
+                <td className="px-6 py-4">
+                  <button
+                    onClick={() => handleEditClient(client.id)}
+                    className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition mr-2"
+                  >
+                    Editar
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
 
-      {/* Botão de Adicionar Novo Cliente */}
       <div className="flex justify-end mt-6">
         <button
           onClick={handleAddClient}

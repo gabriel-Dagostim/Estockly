@@ -35,3 +35,13 @@ model Fornecedor {
   endereco  String
   produtos  Produto[]
 }
+
+model Cliente {
+  id       Int      @id @default(autoincrement())
+  nome     String
+  cpf_cnpj String   @unique
+  contato  String
+  endereco String
+}
+
+
