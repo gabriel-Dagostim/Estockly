@@ -100,22 +100,30 @@ CRUD completo disponível para todas as opções no painel!
 ---
 
 ### 📥 Clonando o Repositório:
-```bash
-git clone https://github.com/seu-repositorio.git
-cd seu-repositorio
+Para clonar o repositório, execute os comandos abaixo:
 
-## Instalando as Dependências:
-Instale todas as dependências necessárias com o comando:
-```bash
-npm install
-```
+**`git clone https://github.com/seu-repositorio.git`**
+
+**`cd seu-repositorio`**
+
 ---
-## Configurando as Variáveis de Ambiente:
+
+### 📦 Instalando as Dependências:
+Instale todas as dependências necessárias com o comando:
+
+**`npm install`**
+
+---
+
+## ⚙️ Configurando as Variáveis de Ambiente:
 Crie um arquivo `.env` na raiz do projeto e adicione as variáveis abaixo:
+
 ```env
 DATABASE_URL="file:./database.sqlite"
 JWT_SECRET="sua-chave-secreta-aqui"
+
 ```
+
 ---
 ## Configurando o Prisma:
 Para configurar o banco de dados e preparar as tabelas, siga os passos:
