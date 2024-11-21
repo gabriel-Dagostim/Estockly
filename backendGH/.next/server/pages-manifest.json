@@ -2,6 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/api/updateUser": "pages/api/updateUser.js",
   "/api/users": "pages/api/users.js",
-  "/api/clientes": "pages/api/clientes.js"
+  "/api/login": "pages/api/login.js"
 }

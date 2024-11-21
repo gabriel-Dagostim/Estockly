@@ -15,6 +15,7 @@ interface SettingsForm {
 const SettingsPage: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<SettingsForm>();
   const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,10 +31,15 @@ const SettingsPage: React.FC = () => {
         }
 
         const user = await response.json();
-        setValue('username', user.name);
-        setValue('email', user.email);
+
+        // Certifique-se de que os dados existem antes de definir os valores
+        setValue('username', user?.name || '');
+        setValue('email', user?.email || '');
       } catch (error) {
         console.error('Erro ao carregar informações do usuário:', error);
+        alert('Erro ao carregar informações do usuário. Tente novamente mais tarde.');
+      } finally {
+        setLoading(false); // Finaliza o estado de carregamento
       }
     };
 
@@ -77,6 +83,10 @@ const SettingsPage: React.FC = () => {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
   };
+
+  if (loading) {
+    return <p className="text-center text-gray-700">Carregando...</p>;
+  }
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
