@@ -75,9 +75,7 @@ const EditProductPage: React.FC<{ params: { id: string } }> = ({ params }) => {
     }
   };
 
-  const handleBack = () => {
-    router.push('/dashboard/produtos');
-  };
+
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;

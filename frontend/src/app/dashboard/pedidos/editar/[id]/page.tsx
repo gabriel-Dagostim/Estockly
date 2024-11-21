@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation'; // useSearchParams para resolver params
 
 interface Produto {
@@ -57,6 +57,12 @@ const EditOrderPage: React.FC = () => {
   useEffect(() => {
     if (!orderId) return; // Aguarda o orderId ser resolvido.
 
+    interface PedidoItem {
+      produtoId: number;
+      quantidade: number;
+      precoUnitario: number;
+    }
+    
     const fetchData = async () => {
       try {
         const [produtosRes, clientesRes, pedidoRes] = await Promise.all([
@@ -64,17 +70,17 @@ const EditOrderPage: React.FC = () => {
           fetch('http://localhost:3001/api/customers').then((res) => res.json()),
           fetch(`http://localhost:3001/api/orders/${orderId}`).then((res) => res.json()),
         ]);
-
+    
         setProdutos(produtosRes);
         setFilteredProdutos(produtosRes);
         setClientes(clientesRes);
-
+    
         reset({
           clienteId: pedidoRes.clienteId,
           data: pedidoRes.data,
           status: pedidoRes.status,
           total: pedidoRes.total,
-          itens: pedidoRes.itens.map((item: any) => ({
+          itens: pedidoRes.itens.map((item: PedidoItem) => ({
             produtoId: item.produtoId,
             quantidade: item.quantidade,
             precoUnitario: item.precoUnitario,

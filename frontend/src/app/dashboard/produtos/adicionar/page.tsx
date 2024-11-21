@@ -19,7 +19,7 @@ interface Fornecedor {
 }
 
 const AddProductPage: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<ProductForm>();
+  const { register, handleSubmit, formState: { errors } } = useForm<ProductForm>();
   const [fornecedores, setFornecedores] = useState<Fornecedor[]>([]);
   const router = useRouter();
 
