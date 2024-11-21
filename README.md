@@ -143,10 +143,15 @@ npm run dev
 ```
 Acesse a aplicação em: [http://localhost:3000](http://localhost:3000).
 ---
-## Licença
+
+## 📜 Licença
 Este projeto está licenciado sob a **MIT License**. Consulte o arquivo `LICENSE` para mais detalhes.
+
 ---
-## Dúvidas ou Sugestões?
+
+## 📞 Dúvidas ou Sugestões?
+
 Entre em contato através dos seguintes canais:
-Site Oficial: https://www.gabrieldagostim.com
-Instagram: https://instagram.com/gabriel_dagostim
+
+[![Site](https://img.icons8.com/ios/50/000000/domain.png)](https://www.gabrieldagostim.com) **[Site Oficial](https://www.gabrieldagostim.com)**  
+[![Instagram](https://img.icons8.com/color/48/000000/instagram-new--v1.png)](https://instagram.com/gabriel_dagostim) **[Instagram](https://instagram.com/gabriel_dagostim)**
