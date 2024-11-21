@@ -6,31 +6,35 @@ Um sistema completo para gerenciar produtos, pedidos, clientes e fornecedores, c
 
 ## ✨ Landing Pages
 
-### Tela Inicial
+A Landing Page foi desenvolvida utilizando **Next.js** com rotas dinâmicas para navegação fluida. Ela possui as seguintes seções:
+
+- 🏠 **Home**
+- 💡 **Funcionalidades**
+- 💵 **Preços**
+- 📖 **Sobre**
+- 📞 **Contato**
+
+### Visualização das Telas da Landing Page:
+
+#### Tela Inicial Completa:
 ![Landing Page](https://i.imgur.com/4wjXZ7H.png)
-
-### Alternativa 1
 ![Landing Page 2](https://i.imgur.com/ERHieq7.png)
-
-### Alternativa 2
 ![Landing Page 3](https://i.imgur.com/5qaDVWo.png)
 
----
-
-## 💵 Página de Preços
+#### Página de Preços:
 ![Página de Preços](https://i.imgur.com/1y8sERB.png)
 
----
-
-## 📞 Página de Contato
+#### Página de Contato:
 ![Página de Contato](https://i.imgur.com/22ToxVz.png)
 
 ---
 
 ## 🔐 Sistema de Login
 
-### Login do Administrador
+### Tela de Login do Administrador
 ![Login de Admin](https://i.imgur.com/lOFe6kJ.png)
+
+O sistema de login utiliza **middleware** para autenticação de rotas e **JWT** (JSON Web Tokens) para proteger as credenciais dos usuários.
 
 ---
 
@@ -39,7 +43,8 @@ Um sistema completo para gerenciar produtos, pedidos, clientes e fornecedores, c
 ### Página Principal do Painel
 ![Painel de Admin](https://i.imgur.com/7RkFvkd.png)
 
-O painel inclui CRUDs completos para:
+O painel inclui **CRUDs completos** para gerenciamento de:
+
 - Produtos
 - Clientes
 - Fornecedores
@@ -59,29 +64,30 @@ CRUD completo disponível para todas as opções no painel!
 
 ## 🛠️ Tecnologias Usadas
 
-| Tecnologia          | Descrição                                                                                        |
-|---------------------|--------------------------------------------------------------------------------------------------|
-| ![JavaScript](https://img.icons8.com/color/48/000000/javascript.png) **JavaScript** | Linguagem principal para toda a aplicação.                            |
-| ![CSS](https://img.icons8.com/color/48/000000/css3.png) **CSS**                    | Estilização de páginas para uma experiência visual moderna.           |
-| ![HTML](https://img.icons8.com/color/48/000000/html-5.png) **HTML**               | Estruturação das páginas da aplicação.                                |
-| ![React](https://img.icons8.com/color/48/000000/react-native.png) **React**       | Biblioteca para criação de interfaces dinâmicas e responsivas.        |
-| ![SQLite](https://img.icons8.com/color/48/000000/sql.png) **SQLite**              | Banco de dados leve e rápido para persistência de dados.              |
-| ![Next.js](https://img.icons8.com/color/48/000000/nextjs.png) **Next.js**         | Framework utilizado para o frontend e backend da aplicação.           |
+### Tecnologias Principais
+
+| Tecnologia                                                                 | Descrição                                                      |
+|---------------------------------------------------------------------------|----------------------------------------------------------------|
+| ![JavaScript](https://img.icons8.com/color/48/000000/javascript.png) **JavaScript** | Linguagem principal para toda a aplicação.                   |
+| ![CSS](https://img.icons8.com/color/48/000000/css3.png) **CSS**            | Estilização de páginas para uma experiência visual moderna.   |
+| ![HTML](https://img.icons8.com/color/48/000000/html-5.png) **HTML**       | Estruturação das páginas da aplicação.                        |
+| ![React](https://img.icons8.com/color/48/000000/react-native.png) **React**| Biblioteca para criação de interfaces dinâmicas e responsivas.|
+| ![SQLite](https://img.icons8.com/color/48/000000/sql.png) **SQLite**       | Banco de dados leve e rápido para persistência de dados.      |
+| ![Next.js](https://img.icons8.com/color/48/000000/nextjs.png) **Next.js** | Framework utilizado para o frontend e backend da aplicação.   |
 
 ---
 
-## ⚙️ **Node.js** com os seguintes módulos importantes:
+### ⚙️ **Node.js** com os seguintes módulos importantes:
 
-| Módulo              | Descrição                                                                                        |
-|---------------------|--------------------------------------------------------------------------------------------------|
-| **Prisma**          | ORM para interação com o banco de dados SQLite.                                                 |
-| **React Hook Form** | Gerenciamento de formulários de maneira eficiente e escalável.                                   |
-| **TailwindCSS**     | Framework para estilização rápida e moderna.                                                    |
-| **JWT**             | Autenticação segura utilizando tokens.                                                          |
-| **SQLite**          | Suporte ao banco de dados.                                                                      |
-| **Lottie React**    | Animações personalizadas para páginas e interações.                                             |
-| **HTML2Canvas**     | Captura de elementos HTML como imagens.                                                         |
-| **JS PDF**          | Geração de relatórios e exportação em PDF.                                                      |
+| Módulo              | Descrição                                          |
+|---------------------|--------------------------------------------------|
+| **Prisma**          | ORM para interação com o banco de dados SQLite. |
+| **React Hook Form** | Gerenciamento de formulários eficiente.         |
+| **TailwindCSS**     | Framework para estilização rápida e moderna.    |
+| **JWT**             | Autenticação segura utilizando tokens.          |
+| **Lottie React**    | Animações para páginas e interações.            |
+| **HTML2Canvas**     | Captura de elementos HTML como imagens.         |
+| **JS PDF**          | Geração de relatórios e exportação em PDF.      |
 
 ---
 
@@ -97,6 +103,7 @@ CRUD completo disponível para todas as opções no painel!
 ```bash
 git clone https://github.com/seu-repositorio.git
 cd seu-repositorio
+
 ## Instalando as Dependências:
 Instale todas as dependências necessárias com o comando:
 ```bash
