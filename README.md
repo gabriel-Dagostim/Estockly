@@ -97,3 +97,49 @@ CRUD completo disponível para todas as opções no painel!
 ```bash
 git clone https://github.com/seu-repositorio.git
 cd seu-repositorio
+## Instalando as Dependências:
+Instale todas as dependências necessárias com o comando:
+```bash
+npm install
+```
+---
+## Configurando as Variáveis de Ambiente:
+Crie um arquivo `.env` na raiz do projeto e adicione as variáveis abaixo:
+```env
+DATABASE_URL="file:./database.sqlite"
+JWT_SECRET="sua-chave-secreta-aqui"
+```
+---
+## Configurando o Prisma:
+Para configurar o banco de dados e preparar as tabelas, siga os passos:
+1. Realize a migração do banco de dados:
+ ```bash
+ npx prisma migrate dev --name init
+ ```
+2. Gere os arquivos do cliente Prisma:
+ ```bash
+ npx prisma generate
+ ```
+3. Confirme a configuração do banco de dados:
+ ```bash
+ npx prisma db push
+ ```
+Para acessar os dados em uma interface visual:
+```bash
+npx prisma studio
+```
+---
+## Rodando o Servidor:
+Execute o seguinte comando para iniciar o servidor de desenvolvimento:
+```bash
+npm run dev
+```
+Acesse a aplicação em: [http://localhost:3000](http://localhost:3000).
+---
+## Licença
+Este projeto está licenciado sob a **MIT License**. Consulte o arquivo `LICENSE` para mais detalhes.
+---
+## Dúvidas ou Sugestões?
+Entre em contato através dos seguintes canais:
+Site Oficial: https://www.gabrieldagostim.com
+Instagram: https://instagram.com/gabriel_dagostim
