@@ -102,7 +102,7 @@ CRUD completo disponível para todas as opções no painel!
 ### 📥 Clonando o Repositório:
 Para clonar o repositório, execute os comandos abaixo:
 
-**`git clone https://github.com/seu-repositorio.git`**
+**`git clone https://github.com/gabriel-Dagostim/Estockly`**
 
 **`cd seu-repositorio`**
 
@@ -125,32 +125,40 @@ JWT_SECRET="sua-chave-secreta-aqui"
 ```
 
 ---
-## Configurando o Prisma:
-Para configurar o banco de dados e preparar as tabelas, siga os passos:
-1. Realize a migração do banco de dados:
- ```bash
- npx prisma migrate dev --name init
- ```
-2. Gere os arquivos do cliente Prisma:
- ```bash
- npx prisma generate
- ```
-3. Confirme a configuração do banco de dados:
- ```bash
- npx prisma db push
- ```
-Para acessar os dados em uma interface visual:
-```bash
-npx prisma studio
-```
+
+## ⚙️ Configurando o Prisma
+
+Siga os passos abaixo para configurar o banco de dados e preparar as tabelas:
+
+1. **Realize a migração do banco de dados**:  
+   Este comando criará as tabelas no banco com base no esquema definido:  
+   **`npx prisma migrate dev --name init`**
+
+2. **Gere os arquivos do cliente Prisma**:  
+   Isto irá gerar o cliente Prisma para ser usado na aplicação:  
+   **`npx prisma generate`**
+
+3. **Confirme a configuração do banco de dados**:  
+   Este comando sincroniza o esquema com o banco de dados:  
+   **`npx prisma db push`**
+
+4. **Acesse os dados em uma interface visual (opcional)**:  
+   Para visualizar e editar os dados do banco de forma gráfica, use:  
+   **`npx prisma studio`**
+
 ---
-## Rodando o Servidor:
-Execute o seguinte comando para iniciar o servidor de desenvolvimento:
-```bash
-npm run dev
-```
-Acesse a aplicação em: [http://localhost:3000](http://localhost:3000).
+
+## 🚀 Rodando o Servidor
+
+Para iniciar o servidor de desenvolvimento e testar o sistema localmente, execute:
+
+**`npm run dev`**
+
+Após iniciar o servidor, acesse a aplicação no navegador em:  
+[http://localhost:3000](http://localhost:3000)
+
 ---
+
 
 ## 📜 Licença
 Este projeto está licenciado sob a **MIT License**. Consulte o arquivo `LICENSE` para mais detalhes.
