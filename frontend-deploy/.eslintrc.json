@@ -1,0 +1,11 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "react/no-unescaped-entities": "off", // Desativa a regra que exige escapar aspas e caracteres especiais.
+    "@typescript-eslint/no-explicit-any": "warn", // Emite apenas um aviso ao usar 'any' em vez de erro.
+    "@typescript-eslint/no-unused-vars": "warn", // Emite apenas um aviso para variáveis não usadas.
+    "quotes": ["error", "single", { "avoidEscape": true }], // Enforce aspas simples, mas permite aspas duplas se necessário.
+    "react/jsx-uses-react": "off", // Se estiver usando React 17+ ou Next.js, esta regra pode ser desativada.
+    "react/react-in-jsx-scope": "off" // Desativa necessidade de importar React em JSX (React 17+).
+  }
+}
