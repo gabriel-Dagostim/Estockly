@@ -1,10 +1,10 @@
 // src/app/components/FeaturesSection.tsx
 import Image from 'next/image';
 import LottieAnimation from '../components/LottieAnimation-server-animate';
-import estoqueImg from '../../../public/estoque.svg';
-import vendasImg from '../../../public/vendas.svg';
-import fornecedoresImg from '../../../public/fornecedores.png';
-import relatorioImg from '../../../public/relatorio.png';
+import estoqueImg from '../estoque.svg';
+import vendasImg from '../vendas.svg';
+import fornecedoresImg from '../fornecedores.png';
+import relatorioImg from '../relatorio.png';
 
 const FeaturesSection: React.FC = () => {
   return (

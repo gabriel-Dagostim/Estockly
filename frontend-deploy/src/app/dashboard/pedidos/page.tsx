@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import DashboardSubHeader from '../../components/DashboardSubHeader';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from "react";
 
 interface Pedido {
   id: number;
@@ -17,37 +15,47 @@ interface Pedido {
 const OrdersPage: React.FC = () => {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [filteredPedidos, setFilteredPedidos] = useState<Pedido[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const fetchPedidos = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/api/orders');
-        if (!response.ok) {
-          throw new Error('Erro ao buscar pedidos');
-        }
-        const data = await response.json();
-        setPedidos(data);
-        setFilteredPedidos(data);
-      } catch (error) {
-        console.error('Erro ao carregar pedidos:', error);
-      }
-    };
-
-    fetchPedidos();
+    // Mock de pedidos
+    const pedidosMock: Pedido[] = [
+      {
+        id: 1,
+        data: "2024-11-01",
+        cliente: { nome: "João Silva" },
+        status: "Concluído",
+        total: 150.75,
+      },
+      {
+        id: 2,
+        data: "2024-11-05",
+        cliente: { nome: "Maria Oliveira" },
+        status: "Pendente",
+        total: 89.99,
+      },
+      {
+        id: 3,
+        data: "2024-11-07",
+        cliente: { nome: "Carlos Souza" },
+        status: "Cancelado",
+        total: 120.5,
+      },
+    ];
+    setPedidos(pedidosMock);
+    setFilteredPedidos(pedidosMock);
   }, []);
 
   const handleAddOrder = () => {
-    router.push('/dashboard/pedidos/adicionar');
+    alert("Adicionar Novo Pedido.");
   };
 
   const handleEditOrder = (id: number) => {
-    router.push(`/dashboard/pedidos/editar/${id}`);
+    alert(`Editar Pedido ${id}.`);
   };
 
   const handleBack = () => {
-    router.push('/dashboard');
+    alert("Voltar ao Dashboard.");
   };
 
   const handleSearch = (query: string) => {
@@ -75,14 +83,16 @@ const OrdersPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Sub-header dos pedidos */}
-      <DashboardSubHeader
-        title="Pedidos"
-        totalCount={filteredPedidos.length}
-        placeholder="Filtrar por cliente..."
-        searchValue={searchQuery}
-        onSearch={handleSearch}
-      />
+      {/* Barra de pesquisa */}
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Filtrar por cliente..."
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+        />
+      </div>
 
       {/* Tabela de Pedidos */}
       <div className="bg-white shadow-lg rounded-lg overflow-hidden mt-6">
@@ -106,11 +116,11 @@ const OrdersPage: React.FC = () => {
                 <td className="px-6 py-4">
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                      pedido.status === 'Concluído'
-                        ? 'bg-green-100 text-green-800'
-                        : pedido.status === 'Pendente'
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-gray-100 text-gray-800'
+                      pedido.status === "Concluído"
+                        ? "bg-green-100 text-green-800"
+                        : pedido.status === "Pendente"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-gray-100 text-gray-800"
                     }`}
                   >
                     {pedido.status}

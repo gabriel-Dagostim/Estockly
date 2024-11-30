@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import DashboardSubHeader from '../../components/DashboardSubHeader';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import DashboardSubHeader from "../../components/DashboardSubHeader";
+import { useRouter } from "next/navigation";
 
 interface Cliente {
   id: number;
@@ -17,32 +17,43 @@ const ClientsPage: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/api/clientes');
-        if (!response.ok) {
-          throw new Error('Erro ao buscar clientes.');
-        }
-        const data = await response.json();
-        setClients(data);
-      } catch (error) {
-        console.error('Erro ao buscar clientes:', error);
-      }
-    };
-
-    fetchClients();
+    // Dados mockados de clientes
+    const mockClients: Cliente[] = [
+      {
+        id: 1,
+        nome: "João Silva",
+        cpf_cnpj: "123.456.789-10",
+        contato: "(11) 98765-4321",
+        endereco: "Rua das Flores, 123",
+      },
+      {
+        id: 2,
+        nome: "Maria Oliveira",
+        cpf_cnpj: "98.765.432/0001-12",
+        contato: "(21) 91234-5678",
+        endereco: "Avenida Paulista, 456",
+      },
+      {
+        id: 3,
+        nome: "Carlos Souza",
+        cpf_cnpj: "789.456.123-00",
+        contato: "(31) 99876-5432",
+        endereco: "Rua das Palmeiras, 789",
+      },
+    ];
+    setClients(mockClients);
   }, []);
 
   const handleAddClient = () => {
-    router.push('/dashboard/clientes/adicionar');
+    alert("Adicionar Novo Cliente");
   };
 
   const handleEditClient = (id: number) => {
-    router.push(`/dashboard/clientes/editar/${id}`);
+    alert(`Editar Cliente com ID: ${id}`);
   };
 
   const handleBack = () => {
-    router.push('/dashboard');
+    router.push("/dashboard");
   };
 
   return (

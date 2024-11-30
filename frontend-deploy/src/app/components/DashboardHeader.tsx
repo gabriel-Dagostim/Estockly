@@ -22,7 +22,7 @@ const DashboardHeader: React.FC = () => {
 
         const user = await response.json();
         // Extrai apenas o primeiro nome
-        const firstName = user.name.split(' ')[0];
+        const firstName = user.name?.split(' ')[0] || 'Usuário';
         setUserName(firstName);
       } catch (error) {
         console.error('Erro ao buscar informações do usuário:', error);

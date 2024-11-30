@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 interface ClientForm {
   nome: string;
@@ -14,57 +14,37 @@ interface ClientForm {
 const EditClientPage: React.FC<{ params: { id: string } }> = ({ params }) => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ClientForm>();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    const fetchClient = async () => {
-      try {
-        const response = await fetch(`http://localhost:3001/api/clientes?id=${params.id}`, {
-          method: 'GET',
-        });
-
-        if (!response.ok) {
-          throw new Error('Erro ao carregar cliente.');
-        }
-
-        const client = await response.json();
-        reset(client); // Preenche os campos do formulário com os dados do cliente
-      } catch (error) {
-        console.error('Erro ao carregar cliente:', error);
-        setError('Erro ao carregar cliente.');
-      } finally {
-        setLoading(false);
-      }
+    // Dados mockados de um cliente específico
+    const mockClient = {
+      id: params.id,
+      nome: "Cliente Exemplo",
+      cpf_cnpj: "123.456.789-00",
+      contato: "(11) 98765-4321",
+      endereco: "Rua Fictícia, 123",
     };
 
-    fetchClient();
+    try {
+      reset(mockClient); // Preenche os campos do formulário com os dados fictícios
+    } catch (err) {
+      console.error("Erro ao carregar cliente:", err);
+      setError("Erro ao carregar cliente.");
+    } finally {
+      setLoading(false);
+    }
   }, [params.id, reset]);
 
-  const onSubmit = async (data: ClientForm) => {
-    try {
-      const response = await fetch(`http://localhost:3001/api/clientes?id=${params.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro ao atualizar cliente.');
-      }
-
-      alert('Cliente atualizado com sucesso!');
-      router.push('/dashboard/clientes');
-    } catch (error) {
-      console.error('Erro ao atualizar cliente:', error);
-      alert('Erro ao atualizar cliente. Tente novamente.');
-    }
+  const onSubmit = (data: ClientForm) => {
+    alert("Cliente atualizado com sucesso!");
+    console.log("Dados atualizados:", data);
+    router.push("/dashboard/clientes");
   };
 
   const handleBack = () => {
-    router.push('/dashboard/clientes');
+    router.push("/dashboard/clientes");
   };
 
   if (loading) return <p>Carregando...</p>;
@@ -89,7 +69,7 @@ const EditClientPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           <input
             type="text"
             id="nome"
-            {...register('nome', { required: "O nome é obrigatório." })}
+            {...register("nome", { required: "O nome é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           {errors.nome && <span className="text-red-500 text-sm">{errors.nome.message}</span>}
@@ -101,7 +81,7 @@ const EditClientPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           <input
             type="text"
             id="cpf_cnpj"
-            {...register('cpf_cnpj', { required: "O CPF/CNPJ é obrigatório." })}
+            {...register("cpf_cnpj", { required: "O CPF/CNPJ é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           {errors.cpf_cnpj && <span className="text-red-500 text-sm">{errors.cpf_cnpj.message}</span>}
@@ -113,7 +93,7 @@ const EditClientPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           <input
             type="text"
             id="contato"
-            {...register('contato', { required: "O contato é obrigatório." })}
+            {...register("contato", { required: "O contato é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           {errors.contato && <span className="text-red-500 text-sm">{errors.contato.message}</span>}
@@ -125,7 +105,7 @@ const EditClientPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           <input
             type="text"
             id="endereco"
-            {...register('endereco', { required: "O endereço é obrigatório." })}
+            {...register("endereco", { required: "O endereço é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           {errors.endereco && <span className="text-red-500 text-sm">{errors.endereco.message}</span>}

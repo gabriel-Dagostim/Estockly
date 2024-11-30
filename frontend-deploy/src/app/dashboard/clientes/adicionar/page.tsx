@@ -1,9 +1,9 @@
 "use client";
 
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import MaskedInput from 'react-text-mask';
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import MaskedInput from "react-text-mask";
 
 interface ClientForm {
   nome: string;
@@ -16,32 +16,14 @@ const AddClientPage: React.FC = () => {
   const { control, handleSubmit, register, formState: { errors } } = useForm<ClientForm>();
   const router = useRouter();
 
-  const onSubmit = async (data: ClientForm) => {
-    try {
-      const response = await fetch("http://localhost:3001/api/clientes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data), // Envia os dados do formulário como JSON
-      });
-
-      if (response.ok) {
-        alert('Cliente adicionado com sucesso!');
-        router.push("/dashboard/clientes");
-      } else {
-        const errorResponse = await response.json();
-        console.error("Erro ao adicionar cliente:", errorResponse);
-        alert("Erro ao adicionar cliente. Verifique os campos.");
-      }
-    } catch (error) {
-      console.error("Erro na requisição:", error);
-      alert("Erro ao conectar ao servidor.");
-    }
+  const onSubmit = (data: ClientForm) => {
+    alert("Cliente adicionado com sucesso!");
+    console.log("Dados do cliente:", data);
+    router.push("/dashboard/clientes");
   };
 
   const handleBack = () => {
-    router.push('/dashboard/clientes');
+    router.push("/dashboard/clientes");
   };
 
   return (
@@ -63,7 +45,7 @@ const AddClientPage: React.FC = () => {
           <input
             type="text"
             id="nome"
-            {...register('nome', { required: "O nome é obrigatório." })}
+            {...register("nome", { required: "O nome é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
           {errors.nome && <span className="text-red-500 text-sm">{errors.nome.message}</span>}
@@ -75,20 +57,21 @@ const AddClientPage: React.FC = () => {
           <Controller
             name="cpf_cnpj"
             control={control}
+            rules={{ required: "O CPF ou CNPJ é obrigatório." }}
             render={({ field }) => (
               <MaskedInput
                 {...field}
                 mask={(value: string) =>
-                  value.replace(/\D/g, '').length > 11
-                    ? [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/]
-                    : [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/]
+                  value.replace(/\D/g, "").length > 11
+                    ? [/\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/]
+                    : [/\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "-", /\d/, /\d/]
                 }
                 placeholder="000.000.000-00 ou 00.000.000/0000-00"
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
               />
             )}
           />
-          {errors.cpf_cnpj && <span className="text-red-500 text-sm">CPF/CNPJ inválido</span>}
+          {errors.cpf_cnpj && <span className="text-red-500 text-sm">{errors.cpf_cnpj.message}</span>}
         </div>
 
         {/* Campo Contato */}
@@ -97,16 +80,17 @@ const AddClientPage: React.FC = () => {
           <Controller
             name="contato"
             control={control}
+            rules={{ required: "O contato é obrigatório." }}
             render={({ field }) => (
               <MaskedInput
                 {...field}
-                mask={['+', /\d/, /\d/, ' ', '(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+                mask={["+", /\d/, /\d/, " ", "(", /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
                 placeholder="+55 (99) 99999-9999"
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
               />
             )}
           />
-          {errors.contato && <span className="text-red-500 text-sm">Contato inválido</span>}
+          {errors.contato && <span className="text-red-500 text-sm">{errors.contato.message}</span>}
         </div>
 
         {/* Campo Endereço */}
@@ -115,7 +99,7 @@ const AddClientPage: React.FC = () => {
           <input
             type="text"
             id="endereco"
-            {...register('endereco', { required: "O endereço é obrigatório." })}
+            {...register("endereco", { required: "O endereço é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
           {errors.endereco && <span className="text-red-500 text-sm">{errors.endereco.message}</span>}

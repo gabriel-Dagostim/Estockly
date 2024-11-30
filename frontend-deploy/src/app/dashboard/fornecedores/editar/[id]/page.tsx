@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter, useParams } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter, useParams } from "next/navigation";
 
 interface SupplierForm {
   nome: string;
@@ -12,51 +12,44 @@ interface SupplierForm {
 }
 
 const EditSupplierPage: React.FC = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Obter ID da rota
   const router = useRouter();
   const { register, handleSubmit, reset, formState: { errors } } = useForm<SupplierForm>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSupplier = async () => {
-      try {
-        const response = await fetch(`http://localhost:3001/api/suppliers?id=${id}`);
-        if (!response.ok) {
-          throw new Error('Erro ao buscar fornecedor.');
-        }
-        const data = await response.json();
-        reset(data);
-      } catch (error) {
-        console.error('Erro ao carregar fornecedor:', error);
-        alert('Erro ao carregar fornecedor.');
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Mock de dados do fornecedor
+    const mockSuppliers = [
+      {
+        id: 1,
+        nome: "Fornecedor A",
+        cnpj: "12.345.678/0001-90",
+        contato: "(11) 1234-5678",
+        endereco: "Rua Exemplo, 123 - São Paulo, SP",
+      },
+      {
+        id: 2,
+        nome: "Fornecedor B",
+        cnpj: "98.765.432/0001-12",
+        contato: "(21) 9876-5432",
+        endereco: "Avenida Modelo, 456 - Rio de Janeiro, RJ",
+      },
+    ];
 
-    fetchSupplier();
-  }, [id, reset]);
-
-  const onSubmit = async (data: SupplierForm) => {
-    try {
-      const response = await fetch(`http://localhost:3001/api/suppliers?id=${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro ao atualizar fornecedor.');
-      }
-
-      alert('Fornecedor atualizado com sucesso!');
-      router.push('/dashboard/fornecedores');
-    } catch (error) {
-      console.error('Erro ao atualizar fornecedor:', error);
-      alert('Erro ao atualizar fornecedor. Tente novamente.');
+    const supplier = mockSuppliers.find((s) => s.id === Number(id));
+    if (supplier) {
+      reset(supplier); // Preenche o formulário com os dados mockados
+    } else {
+      alert("Fornecedor não encontrado.");
+      router.push("/dashboard/fornecedores");
     }
+    setLoading(false);
+  }, [id, reset, router]);
+
+  const onSubmit = (data: SupplierForm) => {
+    console.log("Fornecedor atualizado:", { id, ...data });
+    alert("Fornecedor atualizado com sucesso!");
+    router.push("/dashboard/fornecedores");
   };
 
   if (loading) return <p>Carregando...</p>;
@@ -66,7 +59,7 @@ const EditSupplierPage: React.FC = () => {
       {/* Botão de Voltar */}
       <div className="mb-4">
         <button
-          onClick={() => router.push('/dashboard/fornecedores')}
+          onClick={() => router.push("/dashboard/fornecedores")}
           className="px-4 py-2 bg-purple-200 text-purple-700 font-semibold rounded-md hover:bg-purple-300 transition"
         >
           Voltar
@@ -80,7 +73,7 @@ const EditSupplierPage: React.FC = () => {
           <label htmlFor="nome" className="block text-gray-700">Nome</label>
           <input
             id="nome"
-            {...register('nome', { required: 'O nome é obrigatório.' })}
+            {...register("nome", { required: "O nome é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
           {errors.nome && <span className="text-red-500">{errors.nome.message}</span>}
@@ -89,7 +82,7 @@ const EditSupplierPage: React.FC = () => {
           <label htmlFor="cnpj" className="block text-gray-700">CNPJ</label>
           <input
             id="cnpj"
-            {...register('cnpj', { required: 'O CNPJ é obrigatório.' })}
+            {...register("cnpj", { required: "O CNPJ é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
           {errors.cnpj && <span className="text-red-500">{errors.cnpj.message}</span>}
@@ -98,7 +91,7 @@ const EditSupplierPage: React.FC = () => {
           <label htmlFor="contato" className="block text-gray-700">Contato</label>
           <input
             id="contato"
-            {...register('contato', { required: 'O contato é obrigatório.' })}
+            {...register("contato", { required: "O contato é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
           {errors.contato && <span className="text-red-500">{errors.contato.message}</span>}
@@ -107,7 +100,7 @@ const EditSupplierPage: React.FC = () => {
           <label htmlFor="endereco" className="block text-gray-700">Endereço</label>
           <input
             id="endereco"
-            {...register('endereco', { required: 'O endereço é obrigatório.' })}
+            {...register("endereco", { required: "O endereço é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
           {errors.endereco && <span className="text-red-500">{errors.endereco.message}</span>}

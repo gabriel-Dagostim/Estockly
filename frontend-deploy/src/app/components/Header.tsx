@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { FaBars, FaHome, FaListAlt, FaTag, FaInfoCircle, FaEnvelope } from 'react-icons/fa';
 import { useState } from 'react';
 import Image from 'next/image';
-import logo from '../../../public/logo-Estockly.png';
+import logo from '../logo-Estockly.png';
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);

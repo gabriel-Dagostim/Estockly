@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { useRouter, useSearchParams } from 'next/navigation'; // useSearchParams para resolver params
+import React, { useEffect, useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 
 interface Produto {
   id: number;
@@ -34,8 +33,8 @@ const EditOrderPage: React.FC = () => {
   const { control, handleSubmit, register, setValue, watch, reset } = useForm<PedidoForm>({
     defaultValues: {
       clienteId: 0,
-      data: '',
-      status: '',
+      data: "",
+      status: "",
       itens: [],
       total: 0,
     },
@@ -43,62 +42,51 @@ const EditOrderPage: React.FC = () => {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'itens',
+    name: "itens",
   });
 
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [filteredProdutos, setFilteredProdutos] = useState<Produto[]>([]);
-  const [searchValue, setSearchValue] = useState('');
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const orderId = searchParams.get('id'); // Obter o ID da rota
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
-    if (!orderId) return; // Aguarda o orderId ser resolvido.
+    // Mock de Produtos
+    const produtosMock: Produto[] = [
+      { id: 1, nome: "Produto A", preco: 100 },
+      { id: 2, nome: "Produto B", preco: 50 },
+      { id: 3, nome: "Produto C", preco: 200 },
+    ];
 
-    interface PedidoItem {
-      produtoId: number;
-      quantidade: number;
-      precoUnitario: number;
-    }
-    
-    const fetchData = async () => {
-      try {
-        const [produtosRes, clientesRes, pedidoRes] = await Promise.all([
-          fetch('http://localhost:3001/api/products').then((res) => res.json()),
-          fetch('http://localhost:3001/api/customers').then((res) => res.json()),
-          fetch(`http://localhost:3001/api/orders/${orderId}`).then((res) => res.json()),
-        ]);
-    
-        setProdutos(produtosRes);
-        setFilteredProdutos(produtosRes);
-        setClientes(clientesRes);
-    
-        reset({
-          clienteId: pedidoRes.clienteId,
-          data: pedidoRes.data,
-          status: pedidoRes.status,
-          total: pedidoRes.total,
-          itens: pedidoRes.itens.map((item: PedidoItem) => ({
-            produtoId: item.produtoId,
-            quantidade: item.quantidade,
-            precoUnitario: item.precoUnitario,
-            subtotal: item.quantidade * item.precoUnitario,
-          })),
-        });
-      } catch (error) {
-        console.error('Erro ao carregar dados:', error);
-      }
+    // Mock de Clientes
+    const clientesMock: Cliente[] = [
+      { id: 1, nome: "João Silva" },
+      { id: 2, nome: "Maria Oliveira" },
+      { id: 3, nome: "Carlos Souza" },
+    ];
+
+    // Mock de Pedido
+    const pedidoMock = {
+      clienteId: 1,
+      data: "2024-11-15",
+      status: "Pendente",
+      total: 300,
+      itens: [
+        { produtoId: 1, quantidade: 2, precoUnitario: 100, subtotal: 200 },
+        { produtoId: 2, quantidade: 2, precoUnitario: 50, subtotal: 100 },
+      ],
     };
 
-    fetchData();
-  }, [orderId, reset]);
+    setProdutos(produtosMock);
+    setFilteredProdutos(produtosMock);
+    setClientes(clientesMock);
+    reset(pedidoMock);
+  }, [reset]);
 
   const calculateTotal = () => {
-    const itens = watch('itens');
+    const itens = watch("itens");
     const total = itens.reduce((acc, item) => acc + item.subtotal, 0);
-    setValue('total', total);
+    setValue("total", total);
   };
 
   const handleSearch = (query: string) => {
@@ -110,30 +98,13 @@ const EditOrderPage: React.FC = () => {
     );
   };
 
-  const onSubmit = async (data: PedidoForm) => {
-    try {
-      const response = await fetch(`http://localhost:3001/api/orders/${orderId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro ao atualizar pedido.');
-      }
-
-      alert('Pedido atualizado com sucesso!');
-      router.push('/dashboard/pedidos');
-    } catch (error) {
-      console.error('Erro ao atualizar pedido:', error);
-      alert('Erro ao atualizar pedido. Tente novamente.');
-    }
+  const onSubmit = (data: PedidoForm) => {
+    console.log("Dados atualizados:", data);
+    alert("Pedido atualizado com sucesso!");
   };
 
   const handleBack = () => {
-    router.push('/dashboard/pedidos');
+    alert("Voltando para a lista de pedidos.");
   };
 
   return (
@@ -151,10 +122,12 @@ const EditOrderPage: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
         {/* Cliente */}
         <div>
-          <label htmlFor="clienteId" className="block text-gray-700 font-medium mb-2">Cliente</label>
+          <label htmlFor="clienteId" className="block text-gray-700 font-medium mb-2">
+            Cliente
+          </label>
           <select
             id="clienteId"
-            {...register('clienteId', { required: true })}
+            {...register("clienteId", { required: true })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           >
             <option value="">Selecione o cliente</option>
@@ -168,21 +141,25 @@ const EditOrderPage: React.FC = () => {
 
         {/* Data */}
         <div>
-          <label htmlFor="data" className="block text-gray-700 font-medium mb-2">Data</label>
+          <label htmlFor="data" className="block text-gray-700 font-medium mb-2">
+            Data
+          </label>
           <input
             type="date"
             id="data"
-            {...register('data', { required: true })}
+            {...register("data", { required: true })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
         </div>
 
         {/* Status */}
         <div>
-          <label htmlFor="status" className="block text-gray-700 font-medium mb-2">Status</label>
+          <label htmlFor="status" className="block text-gray-700 font-medium mb-2">
+            Status
+          </label>
           <select
             id="status"
-            {...register('status', { required: true })}
+            {...register("status", { required: true })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           >
             <option value="Pendente">Pendente</option>
@@ -215,7 +192,10 @@ const EditOrderPage: React.FC = () => {
                   }
                   className="px-4 py-2 cursor-pointer hover:bg-purple-100 transition"
                 >
-                  {produto.nome} - <span className="text-green-600 font-bold">R$ {produto.preco.toFixed(2)}</span>
+                  {produto.nome} -{" "}
+                  <span className="text-green-600 font-bold">
+                    R$ {produto.preco.toFixed(2)}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -234,7 +214,9 @@ const EditOrderPage: React.FC = () => {
               <tbody>
                 {fields.map((item, index) => (
                   <tr key={item.id} className="border-b">
-                    <td className="px-6 py-4">{produtos.find((p) => p.id === item.produtoId)?.nome}</td>
+                    <td className="px-6 py-4">
+                      {produtos.find((p) => p.id === item.produtoId)?.nome}
+                    </td>
                     <td className="px-6 py-4">R$ {item.precoUnitario.toFixed(2)}</td>
                     <td className="px-6 py-4">
                       <input
@@ -243,12 +225,17 @@ const EditOrderPage: React.FC = () => {
                         className="w-16 px-2 py-1 border rounded-md text-black"
                         onChange={() => {
                           const quantidade = watch(`itens.${index}.quantidade`);
-                          setValue(`itens.${index}.subtotal`, quantidade * item.precoUnitario);
+                          setValue(
+                            `itens.${index}.subtotal`,
+                            quantidade * item.precoUnitario
+                          );
                           calculateTotal();
                         }}
                       />
                     </td>
-                    <td className="px-6 py-4">R$ {watch(`itens.${index}.subtotal`)?.toFixed(2)}</td>
+                    <td className="px-6 py-4">
+                      R$ {watch(`itens.${index}.subtotal`)?.toFixed(2)}
+                    </td>
                     <td className="px-6 py-4">
                       <button
                         type="button"
@@ -270,7 +257,7 @@ const EditOrderPage: React.FC = () => {
           <label className="block text-gray-700 font-medium mb-2">Total</label>
           <input
             type="number"
-            {...register('total')}
+            {...register("total")}
             readOnly
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-gray-100 text-black"
           />
@@ -278,7 +265,10 @@ const EditOrderPage: React.FC = () => {
 
         {/* Botão de Submissão */}
         <div className="flex justify-end">
-          <button type="submit" className="px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition">
+          <button
+            type="submit"
+            className="px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition"
+          >
             Atualizar Pedido
           </button>
         </div>

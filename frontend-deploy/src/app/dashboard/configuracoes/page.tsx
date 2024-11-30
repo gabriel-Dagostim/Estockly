@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 interface SettingsForm {
   username: string;
@@ -15,85 +15,35 @@ interface SettingsForm {
 const SettingsPage: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<SettingsForm>();
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/api/users', {
-          method: 'GET',
-          credentials: 'include',
-        });
-
-        if (!response.ok) {
-          throw new Error('Erro ao buscar informações do usuário');
-        }
-
-        const user = await response.json();
-
-        // Certifique-se de que os dados existem antes de definir os valores
-        setValue('username', user?.name || '');
-        setValue('email', user?.email || '');
-      } catch (error) {
-        console.error('Erro ao carregar informações do usuário:', error);
-        alert('Erro ao carregar informações do usuário. Tente novamente mais tarde.');
-      } finally {
-        setLoading(false); // Finaliza o estado de carregamento
-      }
+    // Mock de dados do usuário
+    const mockUser = {
+      name: "Usuário Exemplo",
+      email: "exemplo@dominio.com",
     };
 
-    fetchUserData();
+    setValue("username", mockUser.name);
+    setValue("email", mockUser.email);
   }, [setValue]);
 
-  const onSubmit = async (data: SettingsForm) => {
-    try {
-      const updateData: any = {
-        name: data.username,
-        email: data.email,
-      };
-
-      // Adiciona a senha ao `updateData` apenas se o campo de nova senha estiver preenchido
-      if (data.currentPassword && data.newPassword) {
-        updateData.currentPassword = data.currentPassword;
-        updateData.newPassword = data.newPassword;
-      }
-
-      const response = await fetch('http://localhost:3001/api/updateUser', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(updateData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro ao atualizar informações do usuário');
-      }
-
-      alert('Informações atualizadas com sucesso!');
-      router.push('/dashboard'); // Redireciona para a tela da dashboard
-    } catch (error) {
-      console.error('Erro ao atualizar informações do usuário:', error);
-      alert('Erro ao atualizar informações. Tente novamente.');
-    }
+  const onSubmit = (data: SettingsForm) => {
+    console.log("Dados atualizados:", data);
+    alert("Informações atualizadas com sucesso!");
+    router.push("/dashboard");
   };
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
   };
 
-  if (loading) {
-    return <p className="text-center text-gray-700">Carregando...</p>;
-  }
-
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-purple-700">Configurações do Usuário</h2>
         <button
-          onClick={() => router.push('/dashboard')}
+          onClick={() => router.push("/dashboard")}
           className="px-4 py-2 bg-purple-200 text-purple-700 font-semibold rounded-md hover:bg-purple-300 transition"
         >
           Voltar
@@ -107,7 +57,7 @@ const SettingsPage: React.FC = () => {
           <input
             type="text"
             id="username"
-            {...register('username', { required: "O nome de usuário é obrigatório." })}
+            {...register("username", { required: "O nome de usuário é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           {errors.username && <span className="text-red-500 text-sm">{errors.username.message}</span>}
@@ -119,7 +69,7 @@ const SettingsPage: React.FC = () => {
           <input
             type="email"
             id="email"
-            {...register('email', { required: "O email é obrigatório." })}
+            {...register("email", { required: "O email é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
@@ -131,7 +81,7 @@ const SettingsPage: React.FC = () => {
           <input
             type={isPasswordVisible ? "text" : "password"}
             id="currentPassword"
-            {...register('currentPassword')}
+            {...register("currentPassword")}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
           <button
@@ -149,7 +99,7 @@ const SettingsPage: React.FC = () => {
           <input
             type={isPasswordVisible ? "text" : "password"}
             id="newPassword"
-            {...register('newPassword')}
+            {...register("newPassword")}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />
         </div>
@@ -160,8 +110,9 @@ const SettingsPage: React.FC = () => {
           <input
             type={isPasswordVisible ? "text" : "password"}
             id="confirmPassword"
-            {...register('confirmPassword', {
-              validate: value => !watch('newPassword') || value === watch('newPassword') || "As senhas não coincidem.",
+            {...register("confirmPassword", {
+              validate: value =>
+                !watch("newPassword") || value === watch("newPassword") || "As senhas não coincidem.",
             })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 text-black"
           />

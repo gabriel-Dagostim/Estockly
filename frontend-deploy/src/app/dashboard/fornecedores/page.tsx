@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Fornecedor {
   id: number;
@@ -14,40 +14,46 @@ interface Fornecedor {
 
 const SuppliersPage: React.FC = () => {
   const [suppliers, setSuppliers] = useState<Fornecedor[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchSuppliers = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/api/suppliers');
-        if (!response.ok) {
-          throw new Error('Erro ao carregar fornecedores.');
-        }
-        const data = await response.json();
-        setSuppliers(data);
-      } catch (error) {
-        console.error('Erro ao buscar fornecedores:', error);
-        setError('Erro ao carregar fornecedores.');
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Dados mockados de fornecedores
+    const mockSuppliers: Fornecedor[] = [
+      {
+        id: 1,
+        nome: "Fornecedor A",
+        cnpj: "12.345.678/0001-90",
+        contato: "(11) 1234-5678",
+        endereco: "Rua Exemplo, 123 - São Paulo, SP",
+      },
+      {
+        id: 2,
+        nome: "Fornecedor B",
+        cnpj: "98.765.432/0001-12",
+        contato: "(21) 9876-5432",
+        endereco: "Avenida Modelo, 456 - Rio de Janeiro, RJ",
+      },
+      {
+        id: 3,
+        nome: "Fornecedor C",
+        cnpj: "11.222.333/0001-44",
+        contato: "(31) 9123-4567",
+        endereco: "Praça Teste, 789 - Belo Horizonte, MG",
+      },
+    ];
 
-    fetchSuppliers();
+    setSuppliers(mockSuppliers);
   }, []);
 
   const handleEdit = (id: number) => {
-    router.push(`/dashboard/fornecedores/editar/${id}`);
+    alert(`Editando fornecedor com ID: ${id}`);
+    // router.push(`/dashboard/fornecedores/editar/${id}`); // Habilite essa linha se desejar implementar a navegação.
   };
 
   const handleBack = () => {
-    router.push('/dashboard');
+    alert("Voltando para o dashboard.");
+    // router.push("/dashboard"); // Habilite essa linha se desejar implementar a navegação.
   };
-
-  if (loading) return <p>Carregando fornecedores...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">

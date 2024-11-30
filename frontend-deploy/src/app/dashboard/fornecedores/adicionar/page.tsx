@@ -1,9 +1,9 @@
 "use client";
 
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import MaskedInput from 'react-text-mask';
-import { useRouter } from 'next/navigation';
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import MaskedInput from "react-text-mask";
+import { useRouter } from "next/navigation";
 
 interface SupplierForm {
   nome: string;
@@ -16,28 +16,10 @@ const AddSupplierPage: React.FC = () => {
   const { control, handleSubmit, register, formState: { errors } } = useForm<SupplierForm>();
   const router = useRouter();
 
-  const onSubmit = async (data: SupplierForm) => {
-    try {
-      const response = await fetch('http://localhost:3001/api/suppliers', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        alert(`Erro: ${errorResponse.error}`);
-        return;
-      }
-
-      alert('Fornecedor adicionado com sucesso!');
-      router.push('/dashboard/fornecedores');
-    } catch (error) {
-      console.error('Erro ao adicionar fornecedor:', error);
-      alert('Erro ao adicionar fornecedor. Tente novamente.');
-    }
+  const onSubmit = (data: SupplierForm) => {
+    console.log("Fornecedor adicionado:", data);
+    alert("Fornecedor adicionado com sucesso!");
+    router.push("/dashboard/fornecedores");
   };
 
   return (
@@ -45,7 +27,7 @@ const AddSupplierPage: React.FC = () => {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-purple-700">Adicionar Fornecedor</h2>
         <button
-          onClick={() => router.push('/dashboard/fornecedores')}
+          onClick={() => router.push("/dashboard/fornecedores")}
           className="px-4 py-2 bg-purple-200 text-purple-700 font-semibold rounded-md hover:bg-purple-300 transition"
         >
           Voltar
@@ -58,7 +40,7 @@ const AddSupplierPage: React.FC = () => {
           <input
             type="text"
             id="nome"
-            {...register('nome', { required: "O nome é obrigatório." })}
+            {...register("nome", { required: "O nome é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
           {errors.nome && <span className="text-red-500 text-sm">{errors.nome.message}</span>}
@@ -72,7 +54,7 @@ const AddSupplierPage: React.FC = () => {
             render={({ field }) => (
               <MaskedInput
                 {...field}
-                mask={[/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/]}
+                mask={[/\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/]}
                 placeholder="00.000.000/0000-00"
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
               />
@@ -89,7 +71,7 @@ const AddSupplierPage: React.FC = () => {
             render={({ field }) => (
               <MaskedInput
                 {...field}
-                mask={['+', /\d/, /\d/, ' ', '(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+                mask={["+", /\d/, /\d/, " ", "(", /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
                 placeholder="+55 (99) 99999-9999"
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
               />
@@ -103,7 +85,7 @@ const AddSupplierPage: React.FC = () => {
           <input
             type="text"
             id="endereco"
-            {...register('endereco', { required: "O endereço é obrigatório." })}
+            {...register("endereco", { required: "O endereço é obrigatório." })}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
           {errors.endereco && <span className="text-red-500 text-sm">{errors.endereco.message}</span>}

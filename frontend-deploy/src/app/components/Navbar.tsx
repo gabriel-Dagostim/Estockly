@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
       {/* Navbar lateral */}
       <nav
         className={`${
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0 transform lg:static fixed top-0 left-0 h-screen w-64 bg-purple-700 p-6 shadow-lg z-10 transition-transform duration-300 ease-in-out flex flex-col justify-between`}
       >
         <div>
