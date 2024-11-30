@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { FaBars, FaHome, FaListAlt, FaTag, FaInfoCircle, FaEnvelope } from 'react-icons/fa';
 import { useState } from 'react';
 import Image from 'next/image';
-import logo from '../logo-Estockly.png';
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -20,7 +19,8 @@ const Header: React.FC = () => {
       <div className="flex items-center space-x-4">
         <div className="text-2xl font-bold text-purple-700">
           <Link href="/">
-          <Image src={logo} alt="logo" width={80} height={80} className="mx-auto" />
+            {/* Caminho correto para a imagem na pasta public */}
+            <Image src="/logo-Estockly.png" alt="Estockly Logo" width={80} height={80} className="mx-auto" />
           </Link>
         </div>
         <Link
