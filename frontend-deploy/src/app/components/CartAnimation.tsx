@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import dynamic from 'next/dynamic';
 import cartAnimationData from '../../../public/cart-animate.json';
@@ -11,7 +11,7 @@ const CartAnimation = ({ size = 500 }) => {
     <Lottie
       animationData={cartAnimationData}
       style={{ width: size, height: size }}
-      className="mx-auto"
+      className='mx-auto'
     />
   );
 };
