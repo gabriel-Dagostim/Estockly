@@ -9,3 +9,5 @@
     "react/react-in-jsx-scope": "off" // Desativa necessidade de importar React em JSX (React 17+).
   }
 }
+
+
